@@ -1032,6 +1032,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
    * @return a promise to perform the action
    */
   playground.performAction = function(input, param) {
+    globalThis.Contexts = {}; // for debugging
     // set options
     var options = {
       // base IRI
@@ -1056,7 +1057,6 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     }
     else if(playground.activeTab === 'tab-nquads') {
       options.format = 'application/n-quads';
-      globalThis.Contexts = {}
       promise = jsonld.toRDF(input, options)
         .then(dataset => {
           console.log("@Contexts:", globalThis.Contexts);
