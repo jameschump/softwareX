@@ -57,8 +57,8 @@ class Nesting {
 }
 
 class Root extends Nesting {
-  constructor (stream, subject, predicate) { super(stream, '', subject, predicate); }
-  close (done) { if (this.used) this._stream._write('.\n', done); }
+  constructor (stream, subject, predicate) { super(stream, '  ', subject, predicate); }
+  close (done) { if (this.used) {this._stream._write('.\n', done); this.used = false; } }
 }
 
 class BNode extends Nesting {
@@ -167,7 +167,7 @@ class Writer {
           this._write(`, ${objectStr}`, done);
           // Same subject, different predicate
         } else {
-          this._write(`${nesting.used ? ';' : ''}\n${nesting instanceof Root ? '  ' : nesting._indent}${
+          this._write(`${nesting.used ? ';' : ''}\n${nesting._indent}${
               this._encodePredicate(nesting.predicate = predicate)} ${
               objectStr}`, done);
         }
