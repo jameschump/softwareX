@@ -58,17 +58,30 @@ class Nesting {
 
 class Root extends Nesting {
   constructor (stream, subject, predicate) { super(stream, '  ', subject, predicate); }
-  close (done) { if (this.used) {this._stream._write('.\n', done); this.used = false; } }
+  close (done) {
+    if (this.used) {
+      this._stream._write('.\n', done);
+      this.used = false;
+    }
+  }
 }
 
 class BNode extends Nesting {
   constructor (stream, indent, node) { super(stream, indent, node, null); }
-  close (done, p) { this._stream._write(`\n${p._indent}]`, done); }
+  close (done, p) {
+    this._stream._write((this.used ? `\n${p._indent}` : '') + ']', done);
+  }
 }
 
 class Collection extends Nesting {
-  constructor (stream, indent, members) { super(stream, indent, null, null); this._members = members; }
-  close (done, p) { this._stream._write(`\n${p._indent})`, done); }
+  constructor (stream, indent, members) {
+    super(stream, indent, null, null);
+    this._members = members;
+    this.leadSpace = false;
+  }
+  close (done, p) {
+    this._stream._write(`\n${p._indent})`, done);
+  }
 }
 
 
@@ -133,7 +146,7 @@ class Writer {
   }
 
   // ### `_writeQuad` writes the quad to the output stream
-  _writeQuad(subject, predicate, object, graph, done) { // console.log(`${subject.id} ${predicate.id} ${object.id} ${graph.id}`);
+  _writeQuad(subject, predicate, object, graph, done) {
     try {
       // Write the graph's label if it has changed
       if (!graph.equals(this._graph)) {
@@ -149,7 +162,7 @@ class Writer {
 
       let objectStr;
       if (this._lists && (object.value in this._lists)) {
-        objectStr = '( ';
+        objectStr = '(';
         this._nestings.push(new Collection(this, nesting._indent + INDENT, this._lists[object.value]));
       } else if (object.termType === 'BlankNode'
           && this._checkCorefs
@@ -201,20 +214,24 @@ class Writer {
           nesting = this._closeNesting();
         } else {
           const li = nesting._members.shift();
+          const leadSpace = nesting.leadSpace ? ' ' : '';
           if (nesting._subject) {
-            this._write(this._encodeObject(nesting._subject) + ' ');
+            this._write(`${leadSpace}${this._encodeObject(nesting._subject)}`);
             nesting._subject = null; // don't serialize again if e.g. returning from nested list
+            nesting.leadSpace = true;
           }
           if (li.value in this._lists) {
             // list in a list
-            this._write('( ')
+            this._write(`${leadSpace}(`)
             this._nestings.push(nesting = new Collection(this, nesting._indent + INDENT, this._lists[li.value]));
+            nesting.leadSpace = false;
           } else {
             // any other element in the list
             if (li.equals(subject)) {
               this._write("\n" + nesting._indent + '[');
               nesting._subject = null;
               this._nestings.push(nesting = new BNode(this, nesting._indent + INDENT, subject));
+              nesting.leadSpace = false;
             } else {
               nesting._subject = li;
             }
