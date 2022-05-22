@@ -15,7 +15,7 @@
 <http://hl7.org/fhir/Patient/pat1> <http://hl7.org/fhir/Resource.id> _:b34 .
 <http://hl7.org/fhir/Patient/pat1> <http://hl7.org/fhir/nodeRole> <http://hl7.org/fhir/treeRoot> .
 <http://hl7.org/fhir/Patient/pat1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://hl7.org/fhir/Patient> .
-_:b0 <http://hl7.org/fhir/Narrative.div> "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>Patient Donald DUCK @ Acme Healthcare, Inc. MR = 654321</p>\n    \n    </div>" .
+_:b0 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b0 <http://hl7.org/fhir/Narrative.status> _:b1 .
 _:b1 <http://hl7.org/fhir/value> "generated" .
 _:b10 <http://hl7.org/fhir/value> "http://terminology.hl7.org/CodeSystem/v2-0131"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
@@ -63,7 +63,7 @@ _:b31 <http://hl7.org/fhir/Attachment.contentType> _:b32 .
 _:b31 <http://hl7.org/fhir/Attachment.data> _:b33 .
 _:b31 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b32 <http://hl7.org/fhir/value> "image/gif" .
-_:b33 <http://hl7.org/fhir/value> "R0lGODlhEwARAPcAAAAAAAAA/+9aAO+1AP/WAP/eAP/eCP/eEP/eGP/nAP/nCP/nEP/nIf/nKf/nUv/nWv/vAP/vCP/vEP/vGP/vIf/vKf/vMf/vOf/vWv/vY//va//vjP/3c//3lP/3nP//tf//vf///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////yH5BAEAAAEALAAAAAATABEAAAi+AAMIDDCgYMGBCBMSvMCQ4QCFCQcwDBGCA4cLDyEGECDxAoAQHjxwyKhQAMeGIUOSJJjRpIAGDS5wCDly4AALFlYOgHlBwwOSNydM0AmzwYGjBi8IHWoTgQYORg8QIGDAwAKhESI8HIDgwQaRDI1WXXAhK9MBBzZ8/XDxQoUFZC9IiCBh6wEHGz6IbNuwQoSpWxEgyLCXL8O/gAnylNlW6AUEBRIL7Og3KwQIiCXb9HsZQoIEUzUjNEiaNMKAAAA7"^^<http://www.w3.org/2001/XMLSchema#base64Binary> .
+_:b33 <http://hl7.org/fhir/value> "R0l…AA7"^^<http://www.w3.org/2001/XMLSchema#base64Binary> .
 _:b34 <http://hl7.org/fhir/value> "pat1" .
 _:b4 <http://hl7.org/fhir/Reference.display> _:b5 .
 _:b4 <http://hl7.org/fhir/Reference.reference> _:b6 .

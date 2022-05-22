@@ -17,7 +17,7 @@
 <http://hl7.org/fhir/Observation/f001> <http://hl7.org/fhir/Resource.id> _:b42 .
 <http://hl7.org/fhir/Observation/f001> <http://hl7.org/fhir/nodeRole> <http://hl7.org/fhir/treeRoot> .
 <http://hl7.org/fhir/Observation/f001> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://hl7.org/fhir/Observation> .
-_:b0 <http://hl7.org/fhir/Narrative.div> "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: f001</p><p><b>identifier</b>: 6323 (OFFICIAL)</p><p><b>status</b>: final</p><p><b>code</b>: Glucose [Moles/volume] in Blood <span>(Details : {LOINC code '15074-8' = 'Glucose [Moles/volume] in Blood', given as 'Glucose [Moles/volume] in Blood'})</span></p><p><b>subject</b>: <a>P. van de Heuvel</a></p><p><b>effective</b>: Apr 2, 2013 9:30:10 AM --&gt; (ongoing)</p><p><b>issued</b>: Apr 3, 2013 3:30:10 PM</p><p><b>performer</b>: <a>A. Langeveld</a></p><p><b>value</b>: 6.3 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></p><p><b>interpretation</b>: High <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation code 'H' = 'High', given as 'High'})</span></p><h3>ReferenceRanges</h3><table><tr><td>-</td><td><b>Low</b></td><td><b>High</b></td></tr><tr><td>*</td><td>3.1 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td><td>6.2 mmol/l<span> (Details: UCUM code mmol/L = 'mmol/L')</span></td></tr></table></div>" .
+_:b0 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b0 <http://hl7.org/fhir/Narrative.status> _:b1 .
 _:b1 <http://hl7.org/fhir/value> "generated" .
 _:b10 <http://hl7.org/fhir/value> "http://www.bmc.nl/zorgportal/identifiers/observations"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
