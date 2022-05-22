@@ -38,12 +38,12 @@ _:b14 <http://hl7.org/fhir/Bundle.entry.resource> <http://hl7.org/fhir/#example>
 _:b14 <http://hl7.org/fhir/Bundle.entry.search> _:b19 .
 _:b14 <http://hl7.org/fhir/index> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b15 <http://hl7.org/fhir/value> "https://example.com/base/Medication/example"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
-_:b16 <http://hl7.org/fhir/Narrative.div> "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example</p></div>" .
+_:b16 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b16 <http://hl7.org/fhir/Narrative.status> _:b17 .
 _:b17 <http://hl7.org/fhir/value> "generated" .
 _:b18 <http://hl7.org/fhir/value> "example" .
 _:b19 <http://hl7.org/fhir/Bundle.entry.search.mode> _:b20 .
-_:b2 <http://hl7.org/fhir/Narrative.div> "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: 3123</p><p><b>status</b>: unknown</p><p><b>intent</b>: order</p><p><b>medication</b>: <a>Medication/example</a></p><p><b>subject</b>: <a>Patient/347</a></p></div>" .
+_:b2 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b2 <http://hl7.org/fhir/Narrative.status> _:b3 .
 _:b20 <http://hl7.org/fhir/value> "include" .
 _:b21 <http://hl7.org/fhir/Bundle.link.relation> _:b22 .

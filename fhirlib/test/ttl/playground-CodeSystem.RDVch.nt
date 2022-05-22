@@ -102,7 +102,7 @@ _:b49 <http://hl7.org/fhir/value> "http://hl7.org/fhir/CodeSystem/example"^^<htt
 _:b5 <http://hl7.org/fhir/Coding.code> _:b6 .
 _:b5 <http://hl7.org/fhir/Coding.system> _:b7 .
 _:b50 <http://hl7.org/fhir/value> "20160128" .
-_:b51 <http://hl7.org/fhir/Narrative.div> "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p>CodeSystem &quot;ACME Codes for Cholesterol&quot;: This is an example code system that includes \n        all the codes for serum cholesterol defined by ACME inc.</p>\n      <p>Developed by: FHIR project team (example)</p>\n      <p>Published for testing on 28-Jan 2016</p>\n      <p>This code system defines all the ACME codes for serum cholesterol:</p>\n      <table class=\"grid\">\n        <tr>\n          <td>\n            <b>Code</b>\n          </td>\n          <td>\n            <b>Display</b>\n          </td>\n          <td>\n            <b>Definition</b>\n          </td>\n        </tr>\n        <tr>\n          <td>chol-mmol</td>\n          <td>SChol (mmol/L)</td>\n          <td>Serum Cholesterol, in mmol/L</td>\n        </tr>\n        <tr>\n          <td>chol-mass</td>\n          <td>SChol (mg/L)</td>\n          <td>Serum Cholesterol, in mg/L</td>\n        </tr>\n        <tr>\n          <td>chol</td>\n          <td>SChol</td>\n          <td>Serum Cholesterol</td>\n        </tr>\n      </table>\n    </div>" .
+_:b51 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b51 <http://hl7.org/fhir/Narrative.status> _:b52 .
 _:b52 <http://hl7.org/fhir/value> "generated" .
 _:b53 <http://hl7.org/fhir/value> "example" .

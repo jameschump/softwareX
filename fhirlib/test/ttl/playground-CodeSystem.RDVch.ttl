@@ -80,41 +80,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   fhir:CodeSystem.url [ fhir:value "http://hl7.org/fhir/CodeSystem/example"^^xsd:anyURI ] ;
   fhir:CodeSystem.version [ fhir:value "20160128" ] ;
   fhir:DomainResource.text [
-    fhir:Narrative.div """<div xmlns="http://www.w3.org/1999/xhtml">
-      <p>CodeSystem &quot;ACME Codes for Cholesterol&quot;: This is an example code system that includes 
-        all the codes for serum cholesterol defined by ACME inc.</p>
-      <p>Developed by: FHIR project team (example)</p>
-      <p>Published for testing on 28-Jan 2016</p>
-      <p>This code system defines all the ACME codes for serum cholesterol:</p>
-      <table class="grid">
-        <tr>
-          <td>
-            <b>Code</b>
-          </td>
-          <td>
-            <b>Display</b>
-          </td>
-          <td>
-            <b>Definition</b>
-          </td>
-        </tr>
-        <tr>
-          <td>chol-mmol</td>
-          <td>SChol (mmol/L)</td>
-          <td>Serum Cholesterol, in mmol/L</td>
-        </tr>
-        <tr>
-          <td>chol-mass</td>
-          <td>SChol (mg/L)</td>
-          <td>Serum Cholesterol, in mg/L</td>
-        </tr>
-        <tr>
-          <td>chol</td>
-          <td>SChol</td>
-          <td>Serum Cholesterol</td>
-        </tr>
-      </table>
-    </div>""" ;
+    fhir:Narrative.div "<div>…</div>" ;
     fhir:Narrative.status [ fhir:value "generated" ]
   ] ;
   fhir:Resource.id [ fhir:value "example" ] ;
