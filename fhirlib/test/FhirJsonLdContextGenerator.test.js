@@ -7,6 +7,7 @@ const FhirPreprocessors = require('../FhirPreprocessors.js');
 const ShExUtil = require("@shexjs/util");
 
 const GEN_JSONLD_CONTEXT_CONFIG = {
+  axes: {r:true, d: true, v: true, c: false, h: false}
 };
 
 

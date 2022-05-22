@@ -60,23 +60,24 @@ class FhirRdfModelGenerator {
   static NS_xsd = "http://www.w3.org/2001/XMLSchema#";
   static NS_s2j = "http://shex2json.example/map#"
 
-  // Override predicate and NodeConstraint for specific paths
-  static pathOverrides = {
-    'uri.value': {predicate: 'value', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'anyURI' }}, // FHIR type String
-    'base64Binary.value': {predicate: 'value', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'base64Binary' }}, // also type String
-    'instant.value': {predicate: 'value', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'dateTime' }}, // Datetime
-    'dateTime.value': {predicate: 'value', nodeConstraint: { "type": "ShapeOr", "shapeExprs": [
+  // Overrides by element.path
+  static propertyOverrides = {
+    'uri.value': {nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'anyURI' }}, // FHIR type String
+    'base64Binary.value': {nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'base64Binary' }}, // also type String
+    'instant.value': {nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'dateTime' }}, // Datetime
+    'dateTime.value': {nodeConstraint: { "type": "ShapeOr", "shapeExprs": [
       { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'dateTime'   },
       { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'date'       },
       { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'gYearMonth' },
       { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'gYear'      },
     ], "annotations": FhirRdfModelGenerator.unTyped() } }, // Datetime
-    'integer64.value': {predicate: 'value', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'long' }}, // Datetime
-    'Narrative.div': {predicate: 'Narrative.div', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'string' }}, // XHTML narrative text
-//    'positiveInt.value': {predicate: '@@', nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'positiveInt' }} // this doesn't work because the value was already defined by `"baseDefinition": ".../integer"`
+    'integer64.value': {nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'long' }}, // Datetime
+    'Narrative.div': {normalPredicate: true, nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'string' }}, // XHTML narrative text
+    // this doesn't work because the value was already defined by `"baseDefinition": ".../integer"`:
+    //   'positiveInt.value': {nodeConstraint: { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + 'positiveInt' }}
   };
 
-  // Map datatype for specific types
+  // Overrides by value type
   static fhirScalarTypeToXsd = { // overrides by trimmedTypeCode
     "Boolean": { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + "boolean" },
     "String": { "type": "NodeConstraint", "datatype": FhirRdfModelGenerator.NS_xsd + "string" },
@@ -245,7 +246,7 @@ class FhirRdfModelGenerator {
                       ? typeCode.substr(FhirRdfModelGenerator.FHIRPATH_ROOT.length) // http://hl7.org/fhirpath/System.String -> String
                       : typeCode;                                                   // Address -> Address, uri -> uri
 
-                let propertyOverride = FhirRdfModelGenerator.pathOverrides[elt.id];
+                let propertyOverride = FhirRdfModelGenerator.propertyOverrides[elt.id];
                 const isScalar = (elt.id === resourceDef.id + ".value" && "representation" in elt && elt.representation[0] === "xmlAttr") //  e.g. elt.id is "string.value", "date.value"
                       || !!propertyOverride;
                 const specializes = path.length > 0
@@ -260,8 +261,13 @@ class FhirRdfModelGenerator {
                   // Calculate XML Schema datatype
                   const nodeConstraint = (propertyOverride ? propertyOverride.nodeConstraint : null)
                         || FhirRdfModelGenerator.synthesizeScalarTypeName(resourceDef, elt, trimmedTypeCode);
-                  const overrideName = propertyOverride ? propertyOverride.predicate : curriedName
-                  const overridePredicate = FhirRdfModelGenerator.NS_fhir + overrideName;
+
+                  // A propertyOverride with normalPredicate === true says to use the calculated predicate, e.g. `Narrative.div`.
+                  const overridePredicate = propertyOverride && propertyOverride.normalPredicate
+                        ? predicate
+                  // otherwse construct from the bare curried name (e.g. string.value => value, integer64.value => value)
+                        : FhirRdfModelGenerator.NS_fhir + curriedName;
+
                   const pMap = new PropertyMapping(true, elt, curriedName, overridePredicate, nodeConstraint, null, specializes);
                   return acc.concat([pMap]);
                 } else {
