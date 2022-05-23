@@ -150,7 +150,8 @@ class FhirR5Preprocessor {
     const Pfhirshex = "http://hl7.org/fhir/shape/";
     const listOfStem = Pfhirshex + "OneOrMore_";
     if (typeof valueExpr === "string" && valueExpr.startsWith(listOfStem)) {
-      valueExpr = Pfhirshex + valueExpr.substr(listOfStem.length);
+      // TODO: track down actual shape and use firstRef(rdf:first)
+      valueExpr = Pfhirshex + valueExpr.substr(listOfStem.length).replace(/_AND_.*$/, '');
     }
     if (typeof valueExpr === "object") {
       if (valueExpr.type === "ShapeAnd") {

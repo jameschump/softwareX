@@ -68,7 +68,7 @@ class FhirJsonLdContextGenerator {
   genJsonldContext (target, config) {
     if (!this.cache.has(target)) {
       const v = new Converter(this.shexj, config);
-      const ret = v.convert(this.index.shapeExprs['http://hl7.org/fhir/shape/' + target]);
+      const ret = v.convert(this.index.shapeExprs['http://hl7.org/fhir/shape/' + target], this.index);
       this.cache.set(target, ret);
     }
     return this.cache.get(target);
@@ -81,13 +81,13 @@ class Converter {
     this.config = config;
   }
 
-  convert (shexpr) {
+  convert (shexpr, index) {
     const ret = {
       '@context': Object.assign(
           {},
           FhirJsonLdContextGenerator.HEADER,
           FhirJsonLdContextGenerator.NAMESPACES,
-          this.visit(shexpr.expression)
+          this.visit(shexpr.expression, index)
       ) // this.lookup(from)
     }
     return ret
@@ -104,14 +104,14 @@ class Converter {
     return found.expression
   }
 
-  visit (expr) {
+  visit (expr, index) {
     switch (expr.type) {
       case 'OneOf':
       case 'EachOf':
         return Object.assign(
             {},
             FhirJsonLdContextGenerator.TYPE_AND_INDEX, // rdf:type, fhir:index, and all of the...
-            Object.assign.apply({}, expr.expressions.map(e => this.visit(e))) // generated properties
+            Object.assign.apply({}, expr.expressions.map(e => this.visit(e, index))) // generated properties
         )
       case 'TripleConstraint':
         const {id, property} = shorten(expr.predicate)
@@ -129,7 +129,8 @@ class Converter {
             ret[property]['@context'] = this.visit(this.lookup(expr.valueExpr))
           } else {
             // all other references (Datatypes, Resources)
-            ret[property]['@context'] = StupidBaseUrl(expr.valueExpr.substr(Ns_fhsh.length).replace(/OneOrMore_/, ''))
+            const firstRef = this.findFirstOfCollection(expr.valueExpr, index);
+            ret[property]['@context'] = StupidBaseUrl(firstRef.substr(Ns_fhsh.length).replace(/OneOrMore_/, ''))
           }
         } else if (typeof expr.valueExpr === 'object') {
           const a = (expr.annotations || []).find(a => a.predicate === "http://shex2json.example/map#property");
@@ -149,6 +150,7 @@ class Converter {
             // e.g. `fhir:gender @fhirs:code AND { fhir:value @fhirvs:adminstritative-gender }`
             const ref = firstRef(expr.valueExpr);
             if (ref) {
+              // TODO: why isn't this need here like it is above?: this.findFirstOfCollection(ref, index);
               ret[property]['@context'] = StupidBaseUrl(ref.substr(Ns_fhsh.length).replace(/OneOrMore_/, ''))
             }
           }
@@ -157,6 +159,13 @@ class Converter {
       default:
         throw Error('what\'s a ' + JSON.stringify(expr))
     }
+  }
+
+  findFirstOfCollection (label, index) {
+    if (!label.substr(Ns_fhsh.length).startsWith('OneOrMore_'))
+      return label;
+    const valueExpr = index.shapeExprs[label].expression.expressions[0].valueExpr;
+    return firstRef(valueExpr);
   }
 }
 

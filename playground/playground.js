@@ -1119,7 +1119,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
             version: 1.1,
             indent: '    ',
             checkCorefs: n => false,
-            debug: true,
+            // debug: true,
           });
           const serializer = new FhirTurtleSerializer.Serializer(playground.fhircat.shexj);
           try {

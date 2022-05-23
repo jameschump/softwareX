@@ -38,6 +38,12 @@ class FhirShExJGenerator extends ModelVisitor {
     ]
   };
 
+  static BindingMaps = [
+    {fhirStem: Prefixes.fhirvs, shexStem: ''},
+    {fhirStem: 'http://terminology.hl7.org/ValueSet/', shexStem: 'hl7-'},
+    {fhirStem: 'http://loinc.org/vs/', shexStem: 'loinc-'},
+  ];
+
   // prototype for fhir:index list emulations.
   static INDEX = {
     type: "TripleConstraint",
@@ -75,7 +81,7 @@ class FhirShExJGenerator extends ModelVisitor {
     // be able to look up TripleConstraints by the PropertyMapping that begat them.
     this.pMap2TC = new Map();
     // rdf:Collection type to add
-    this.lists = new Set();
+    this.lists = {};
   }
 
   listName (typeName) {
@@ -114,26 +120,30 @@ class FhirShExJGenerator extends ModelVisitor {
         return generated2.concat(genMe);
       }, generated1);
     }, Promise.resolve([]));
-    for (let type of this.lists) {
-      const listName = this.listName(type);
-      const listShape = {
-        "type": "Shape",
-        "id": P.fhirshex + listName,
-        "closed": true,
-        "expression": {
-          "type": "EachOf",
-          "expressions": [
-            { "type": "TripleConstraint", "predicate": P.rdf + "first", "valueExpr": P.fhirshex + type },
-            { "type": "TripleConstraint",
-              "predicate": P.rdf + "rest",
-              "valueExpr": {
-                "type": "ShapeOr",
-                "shapeExprs": [
-                  { "type": "NodeConstraint", "values": [ P.rdf + "nil" ] },
-                  P.fhirshex + listName
-      ] } } ] } };
-      this.schema.shapes.push(listShape);
-    }
+    Array.prototype.push.apply(
+      this.schema.shapes,
+      Object.entries(this.lists)
+        .map(([id, valueExpr]) => ({
+          type: 'Shape',
+          id,
+          expression:
+          { type: "EachOf",
+            expressions: [
+              { type: "TripleConstraint",
+                predicate: P.rdf + "first",
+                valueExpr
+              },
+              { type: "TripleConstraint",
+                predicate: P.rdf + "rest",
+                valueExpr: {
+                  type: "ShapeOr",
+                  shapeExprs: [
+                    { "type": "NodeConstraint", "values": [ P.rdf + "nil" ] },
+                    id
+                  ] } }
+            ] }
+        } ) )
+    );
 
     const allTypesLabel = Prefixes.fhirvs + 'all-types';
     generated.push('all-types');
@@ -198,13 +208,14 @@ class FhirShExJGenerator extends ModelVisitor {
   enter (propertyMapping) {
     const shapeName = Prefixes.fhirshex + propertyMapping.element.id;
     let typeName = propertyMapping.element.id;
+    let valueExpr = Prefixes.fhirshex + typeName;
     if (this.config.axes.c && propertyMapping.element.max !== "1") {
-      this.lists.add(typeName);
-      typeName = this.listName(typeName);
+      valueExpr = Prefixes.fhirshex + this.listName(typeName);
+      this.lists[valueExpr] = Prefixes.fhirshex + typeName;
     }
     this.add(this.indexTripleConstraint(
       propertyMapping,
-      Prefixes.fhirshex + typeName,
+      valueExpr,
       this.makeCard(propertyMapping.element.min, propertyMapping.element.max)
     ));
     this.pushShape(shapeName, true); // TODO: would break if nested *inside* a DomainResource.
@@ -232,14 +243,18 @@ class FhirShExJGenerator extends ModelVisitor {
           delete valueExpr.annotations;
         }
       } else {
-        let typeName = propertyMapping.type
-        if (this.config.axes.c && propertyMapping.element.max !== "1") {
-          this.lists.add(typeName);
-          typeName = this.listName(typeName);
-        }
+        let typeName = propertyMapping.type;
         valueExpr = Prefixes.fhirshex + typeName;
         if (propertyMapping.binding && propertyMapping.binding.strength === 'required') {
-          const [valueSet, version] = propertyMapping.binding.valueSet.split(/\|/);
+          const bindingMap = FhirShExJGenerator.BindingMaps.find(
+            bindingMap => propertyMapping.binding.valueSet.startsWith(bindingMap.fhirStem)
+          );
+          if (!bindingMap)
+            throw Error(`Don't know anything about binding ${propertyMapping.binding}`);
+          const valueSetSpec = bindingMap.shexStem +
+                propertyMapping.binding.valueSet.substr(bindingMap.fhirStem.length);
+          const [valueSet, version] = valueSetSpec.split(/\|/);
+          typeName = typeName + '_AND_' + valueSet;
           const annotations = this.config.addValueSetVersionAnnotation && version
                 ? {
                   "annotations": [{
@@ -252,7 +267,7 @@ class FhirShExJGenerator extends ModelVisitor {
           if (this.config.axes.h) {
             valueExpr = {
               type: "ShapeAnd",
-              shapeExprs: [valueExpr, valueSet]
+              shapeExprs: [valueExpr, Prefixes.fhirvs + valueSet]
               // TODO: does not pass annotation into triple constraint
             };
           } else {
@@ -260,7 +275,7 @@ class FhirShExJGenerator extends ModelVisitor {
               {
                 type: "TripleConstraint",
                 predicate: Prefixes.fhir + 'value',
-                valueExpr: valueSet
+                valueExpr: Prefixes.fhirvs + valueSet
               },
               annotations
             );
@@ -269,6 +284,11 @@ class FhirShExJGenerator extends ModelVisitor {
               shapeExprs: [valueExpr, {type: "Shape", expression}]
             };
           }
+        }
+        if (this.config.axes.c && propertyMapping.element.max !== "1") {
+          typeName = this.listName(typeName);
+          this.lists[Prefixes.fhirshex + typeName] = valueExpr;
+          valueExpr = Prefixes.fhirshex + typeName;
         }
       }
       return acc.concat([this.indexTripleConstraint(
