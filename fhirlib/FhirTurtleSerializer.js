@@ -37,8 +37,14 @@ class Serializer {
     if (!("solution" in res))
       throw res;
     const matched = [];
+    const seen = new N3Store(); // use N3Store to de-duplicate quads that were validated multiple ways.
     const matchedDb = {
-      addQuad: function (q) { matched.push(q); }
+      addQuad: function (q) {
+        if (!seen.countQuads(q.subject, q.predicate, q.object, q.graph)) {
+          seen.addQuad(q);
+          matched.push(q);
+        }
+      }
     }
     ShExUtil.getProofGraph(res, matchedDb, N3DataFactory);
     if (rest) {
