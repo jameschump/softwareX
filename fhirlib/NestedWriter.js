@@ -210,16 +210,16 @@ class Writer {
 
       if (nesting instanceof Collection) {
 
+        const leadSpace = nesting.leadSpace ? ' ' : '';
+        if (nesting._subject) {
+          this._write(`${leadSpace}${this._encodeObject(nesting._subject)}`);
+          nesting._subject = null; // don't serialize again if e.g. returning from nested list
+          nesting.leadSpace = true;
+        }
         if (nesting._members.length === 0) {
           nesting = this._closeNesting();
         } else {
           const li = nesting._members.shift();
-          const leadSpace = nesting.leadSpace ? ' ' : '';
-          if (nesting._subject) {
-            this._write(`${leadSpace}${this._encodeObject(nesting._subject)}`);
-            nesting._subject = null; // don't serialize again if e.g. returning from nested list
-            nesting.leadSpace = true;
-          }
           if (li.value in this._lists) {
             // list in a list
             this._write(`${leadSpace}(`)
