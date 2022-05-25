@@ -1507,23 +1507,27 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     var input;
 
     // nothing to process
-    if(markup === '') {
+    if(markup === '' || markup === '{}') {
       return Promise.resolve("markup empty");
     }
 
     // check to see if the JSON-LD markup is valid JSON
-    try {
-      playground.lastParsed.markup = JSON.parse(markup);
-      const raw = JSON.parse(markup); // raw gets munged by the preprocessor
-      const human = playground.humanize(fhirPreprocessR4(raw)); // output of preprocessor is input to active tab
-      playground.outputs['final-jsonld'].setValue(human);
-      input = JSON.parse(human);
-    }
-    catch(e) {
-      $('#markup-errors')
-        .text('JSON markup - ' + e)
-        .show();
-      errors = true;
+    {
+      let curTask = 'FHIR/JSON';
+      try {
+        playground.lastParsed.markup = JSON.parse(markup);
+        const raw = JSON.parse(markup); // raw gets munged by the preprocessor
+        curTask = 'pre-processing';
+        const human = playground.humanize(fhirPreprocessR4(raw)); // output of preprocessor is input to active tab
+        playground.outputs['final-jsonld'].setValue(human);
+        input = JSON.parse(human);
+      }
+      catch(e) {
+        $('#markup-errors')
+          .text(`Error ${curTask} - ` + e)
+          .show();
+        errors = true;
+      }
     }
 
     // If we're using a param, check to see if it is valid JSON
@@ -1881,6 +1885,57 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     return playground.populateWithJSON(data);
   };
 
+  playground.loadManifest = async function(manifestParameter, base) {
+    let curTask;
+    try {
+      curTask = 'parsing manifestURL';
+      const manifestUrl = new URL(manifestParameter, base);
+
+      curTask = 'loading manifest %{manifestUrl.href}';
+      const manifestResp = await fetch(manifestUrl.href);
+      if (!manifestResp.ok)
+        throw Error(`got ${manifestResp.statusText}`);
+      $(".btn-group:first-child > button > a").first().attr("href", manifestUrl.href);
+      const manifestText = await manifestResp.text();
+
+      curTask = 'parsing manifest %{manifestUrl.href}';
+      let entries = JSON.parse(manifestText);
+      if (!Array.isArray(entries))
+        entries = [entries];
+      entries.forEach(entry => {
+        const {id, title, icon, url} = entry;
+        // url may be relative to the manifestUrl
+        const abs = new URL(url, manifestUrl);
+
+        // construct example button
+        $('.btn-group').append(
+          $('<button/>', {id: `btn-${id}`, 'class': 'btn button'}).append(
+            $('<i/>', { 'class': `icon ${icon}` }),
+            $('<span/>').append(
+              title,
+              $('<a/>', { href: abs }).append('*')
+            )
+          ).click(async function (evt) {
+
+            curTask = 'fetching %{abs.href}';
+            const exampleResp = await fetch(abs);
+            if (!exampleResp.ok)
+              throw Error(`got ${exampleResp.statusText}`);
+            const exampleText = await exampleResp.text();
+
+            curTask = 'parsing example %{abs.href}';
+            playground.examples[id] = JSON.parse(exampleText);
+            playground.populateWithExample(id);
+          })
+        );
+      });
+    } catch (e) {
+      console.error(e);
+      $('#param-errors')
+        .text(`Error ${curTask} - ` + e)
+        .show();
+    };
+  }
 
   // event handlers
   $(document).ready(function() {
@@ -1945,12 +2000,13 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     };
 
     // set up buttons to load examples
-    $('.button').each(function() {
-      var button = $(this);
-      button.click(function() {
-        playground.populateWithExample(button.find('span').text());
-      });
-    });
+    playground.examples = {};
+    playground.frames = {};
+    playground.contexts = {};
+    playground.loadManifest(
+      getParameterByName('manifestURL') || 'playground/manifest.json',
+      window.location
+    );
 
     $('#use-context-map').change(function() {
       playground.process();
