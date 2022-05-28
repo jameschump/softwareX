@@ -87,7 +87,7 @@ class Converter {
           {},
           FhirJsonLdContextGenerator.HEADER,
           FhirJsonLdContextGenerator.NAMESPACES,
-          this.visit(shexpr.expression, index)
+          this.visitShapeExpr(shexpr, index)
       ) // this.lookup(from)
     }
     return ret
@@ -99,9 +99,22 @@ class Converter {
       report(Error(`${label} not found`))
       return null
     }
-    if (!("expression" in found))
-      report(Error(`${label} has no expression`))
-    return found.expression
+    return found
+  }
+
+  visitShapeExpr (shexpr, index) {
+    if (typeof shexpr === 'string')
+      return this.visitShapeExpr(this.lookup(shexpr));
+
+    switch (shexpr.type) {
+    case 'Shape': return this.visit(shexpr.expression, index);
+    case 'ShapeOr': {
+      return Object.assign.apply(Object, shexpr.shapeExprs.map(junct => this.visitShapeExpr(junct, index)));
+    }
+    case 'NodeConstraint':
+    case 'ShapeNot': return {};
+    default: throw Error('what\'s a ' + JSON.stringify(shexpr))
+    }
   }
 
   visit (expr, index) {
@@ -126,7 +139,7 @@ class Converter {
         if (typeof expr.valueExpr === "string") {
           if (false && expr.valueExpr.substr(Ns_fhsh.length).match(/\./)) { // would need cycle detection, currently left up to
             // '.'d reference to a nested Shape, e.g. `fhirs:Patient.contact`
-            ret[property]['@context'] = this.visit(this.lookup(expr.valueExpr))
+            ret[property]['@context'] = this.visit(this.lookup(expr.valueExpr).expression)
           } else {
             // all other references (Datatypes, Resources)
             const firstRef = this.findFirstOfCollection(expr.valueExpr, index);

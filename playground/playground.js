@@ -1523,6 +1523,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
         input = JSON.parse(human);
       }
       catch(e) {
+        console.error(e);
         $('#markup-errors')
           .text(`Error ${curTask} - ` + e)
           .show();

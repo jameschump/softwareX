@@ -1,3 +1,4 @@
+const Hierarchy = require('hierarchy-closure');
 const {FhirRdfModelGenerator, PropertyMapping, DefinitionBundleLoader, ModelVisitor} = require('./FhirRdfModelGenerator');
 const Prefixes = require('./Prefixes');
 const ShExUtil = require("@shexjs/util");
@@ -18,7 +19,7 @@ class FhirShExJGenerator extends ModelVisitor {
     start: {
       type: "ShapeAnd",
       shapeExprs: [
-        { type: "Shape" }, // replace me with e.g. Prefixes.fhirshex + "MedicationRequest"
+        Prefixes.fhirshex + 'Base', // everything that extends Base
         {
           type: "Shape",
           expression: {
@@ -53,6 +54,7 @@ class FhirShExJGenerator extends ModelVisitor {
   };
 
   static PARENT_TYPES = ['Resource'];
+  static TODO_ABSTRACT_RESOURCES = ['Base', 'Resource', 'DomainResource', 'CanonicalResource', 'DomainResource'];
   static ResourcesThatNeedALink = ["Reference"];
 
   constructor (definitionLoader, config = {}) {
@@ -82,6 +84,8 @@ class FhirShExJGenerator extends ModelVisitor {
     this.pMap2TC = new Map();
     // rdf:Collection type to add
     this.lists = {};
+    // closure of strurecture definitition baseDefinitions
+    this.extensions = Hierarchy.create();
   }
 
   listName (typeName) {
@@ -145,9 +149,7 @@ class FhirShExJGenerator extends ModelVisitor {
         } ) )
     );
 
-    const allTypesLabel = Prefixes.fhirvs + 'all-types';
-    generated.push('all-types');
-    this.genAllTypes(allTypesLabel, this.config);
+    this.replaceAbstractClasses(this.config);
     return this.schema;
   }
 
@@ -160,6 +162,12 @@ class FhirShExJGenerator extends ModelVisitor {
   async genShape (resourceDef, root, generatorConfig = this.config) {
     const isParent = FhirShExJGenerator.PARENT_TYPES.indexOf(resourceDef.id) === -1;
     const label = Prefixes.fhirshex + resourceDef.id;
+    if ('baseDefinition' in resourceDef) {
+      if (!resourceDef.baseDefinition.startsWith(GEN_SHEXJ_STEM))
+        throw Error(`Unknown URL stem in ${resourceDef.baseDefinition}, expected ${GEN_SHEXJ_STEM}`);
+      const base = resourceDef.baseDefinition.substr(GEN_SHEXJ_STEM.length);
+      this.extensions.add(base, resourceDef.id);
+    }
     this.added.push(label);
     this.pushShape(label, isParent);
     if (resourceDef.kind === 'resource') {
@@ -469,12 +477,52 @@ class FhirShExJGenerator extends ModelVisitor {
    * @param config control predicates and lists in RDF model.
    * @returns {FhirShExJGenerator}
    */
-  genAllTypes (label, generatorConfig = this.config) {
-    this.schema.shapes.push({
-      type: "NodeConstraint",
-      id: label,
-      values: this.added.map(label => ({ value: label.substr(label.lastIndexOf('/') + 1) }))
-    });
+  replaceAbstractClasses (generatorConfig = this.config) {
+    const extended = // Object.keys(this.extensions.children) // have more than
+          // .filter(p => this.extensions.children[p].length > 0); // 0 children.
+          FhirShExJGenerator.TODO_ABSTRACT_RESOURCES;
+
+    extended.forEach(p => {
+      const id = P.fhirshex + p; // the name of this shape
+
+      // Replace id in schema.shapes with a ShapeOr of its (unextended) children.
+      const replaceMe = this.schema.shapes.find(se => se.id === id);
+      if (!replaceMe)
+        throw Error(`did not find ${id} in \n  ${this.schema.shapes.map(se => se.id).join('\n  ')}`);
+
+      const children = this.extensions.children[p] // all children on e
+            .filter(c => this.extensions.children[c].length === 0); // that weren't also extended
+
+      const shapeExprs = children.map(c => ({
+          type: "ShapeOr",
+          shapeExprs: [
+            { type: "ShapeNot",
+              shapeExpr: {
+                type: "Shape",
+                expression: {
+                  type: "EachOf",
+                  expressions: [
+                    { type: "TripleConstraint",
+                      predicate: P.fhirshex + "nodeRole",
+                      valueExpr: {
+                        type: "NodeConstraint",
+                        values: [ P.fhirshex + "treeRoot" ] }
+                    },
+                    { type: "TripleConstraint",
+                      predicate: P.rdf + "type",
+                      valueExpr: {
+                        type: "NodeConstraint",
+                        values: [ P.fhirshex + c ] }
+                  } ]
+            } } },
+            P.fhirshex + c
+          ]
+      }) );
+
+      // Replace replaceMe in schema.shapes.
+      const replaceIdx = this.schema.shapes.indexOf(replaceMe);
+      this.schema.shapes[replaceIdx] = { id, type: "ShapeOr", shapeExprs };
+    } )
     this.schema["@context"] = "http://www.w3.org/ns/shex.jsonld";
     return this;
   }

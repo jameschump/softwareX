@@ -28,7 +28,10 @@ class FhirR5Preprocessor {
     input['nodeRole'] = 'fhir:treeRoot';
 
     // TODO: replace this with @included once the bug is fixed
-    let graph = this.processFhirObject(input, this.shexj.shapes.find(s => s.id === NS_fhir + resourceType), resourceType);
+    const shexpr = this.shexj.shapes.find(s => s.id === NS_fhir + resourceType);
+    if (!shexpr)
+      throw Object.assign(Error(`No shape found for ${resourceType}`), {shapes: this.shexj.shapes.map(s => s.id)});
+    let graph = this.processFhirObject(input, shexpr, resourceType);
 
     // add ontology header
     let hdr = {};
@@ -103,6 +106,16 @@ class FhirR5Preprocessor {
           this.resourceTypeSet.add(value);
           fhirObj[key] = 'fhir:' + value;
         }
+      } else if (key === 'contained') {
+        value.forEach(contained => {
+          if (!('resourceType' in contained))
+            throw Error(`expected resourceType in contained object ${JSON.stringify(contained)}`);
+          const containedType = contained.resourceType;
+          const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
+          if (!shapeForContained)
+            throw Error(`no ShEx shape found for ${containedType}`);
+          this.processFhirObject(contained, shapeForContained, containedType, true);
+        });
       } else {
         const [nestObject, nestType] = this.lookupNestedObject(schemaObject, resourceType, key);
         if (Array.isArray(value)) {
