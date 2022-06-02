@@ -107,15 +107,9 @@ class FhirR5Preprocessor {
           fhirObj[key] = 'fhir:' + value;
         }
       } else if (key === 'contained') {
-        value.forEach(contained => {
-          if (!('resourceType' in contained))
-            throw Error(`expected resourceType in contained object ${JSON.stringify(contained)}`);
-          const containedType = contained.resourceType;
-          const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
-          if (!shapeForContained)
-            throw Error(`no ShEx shape found for ${containedType}`);
-          this.processFhirObject(contained, shapeForContained, containedType, true);
-        });
+        value.forEach(contained => this.processAbstractReference(contained, schemaObject, resourceType, inside));
+      } else if (key === 'resource' /* TODO: make sure in a Bundle.entry? */) {
+        this.processAbstractReference(value, schemaObject, resourceType, inside);
       } else {
         const [nestObject, nestType] = this.lookupNestedObject(schemaObject, resourceType, key);
         if (Array.isArray(value)) {
@@ -139,6 +133,16 @@ class FhirR5Preprocessor {
       }
     }
     return fhirObj;
+  }
+
+  processAbstractReference (contained, schemaObject, resourceType, inside = false) {
+    if (!('resourceType' in contained))
+      throw Error(`expected resourceType in contained object ${JSON.stringify(contained)}`);
+    const containedType = contained.resourceType;
+    const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
+    if (!shapeForContained)
+      throw Error(`no ShEx shape found for ${containedType}`);
+    this.processFhirObject(contained, shapeForContained, containedType, true);
   }
 
   lookupNestedObject (schemaObject, resourceType, key) {

@@ -149,6 +149,11 @@ class FhirShExJGenerator extends ModelVisitor {
         } ) )
     );
 
+    // < 4.5 FHIR resources-types didn't have a 'Base'
+    // c.f. https://github.com/fhircat/fhir-rdf-playground/issues/10
+    if (!this.schema.shapes.find(se => se.id === P.fhirshex + 'Base'))
+      this.schema.shapes.push({type: 'Shape', id: P.fhirshex + 'Base'});
+
     this.replaceAbstractClasses(this.config);
     return this.schema;
   }
