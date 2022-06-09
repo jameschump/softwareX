@@ -104,7 +104,7 @@ class Converter {
 
   visitShapeExpr (shexpr, index) {
     if (typeof shexpr === 'string')
-      return this.visitShapeExpr(this.lookup(shexpr));
+      return this.visitShapeExpr(this.lookup(shexpr), index);
 
     switch (shexpr.type) {
     case 'Shape': return this.visit(shexpr.expression, index);
