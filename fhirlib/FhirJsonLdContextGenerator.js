@@ -142,11 +142,11 @@ class Converter {
             ret[property]['@context'] = this.visit(this.lookup(expr.valueExpr).expression)
           } else {
             // all other references (Datatypes, Resources)
-            const firstRef = this.findFirstOfCollection(expr.valueExpr, index);
+            const firstRef = this.findFirstOfCollection(expr.valueExpr, index)
             ret[property]['@context'] = StupidBaseUrl(firstRef.substr(Ns_fhsh.length).replace(/OneOrMore_/, ''))
           }
         } else if (typeof expr.valueExpr === 'object') {
-          const a = (expr.annotations || []).find(a => a.predicate === "http://shex2json.example/map#property");
+          const a = (expr.annotations || []).find(a => a.predicate === "http://shex2json.example/map#property")
           if (a) {
             ; // no need for an @type
           } else if (expr.valueExpr.type === "NodeConstraint") {
@@ -159,6 +159,27 @@ class Converter {
             }
           } else if (expr.valueExpr.type === "Shape") {
             ret[property]['@context'] = this.visit(expr.valueExpr.expression)
+          } else if (expr.valueExpr.type === "ShapeOr"
+                     && !(expr.valueExpr.shapeExprs.find(v => typeof v !== "string"
+                                                         || !v.startsWith(Ns_fhsh))) /* all refs */) {
+            /* Observation.value -> { valueAttachment: {@id: 'fhir:value', @context: 'Attachment.context.jsonld'},
+                                      valueBoolean: {@id: 'fhir:value', @context: 'boolean.context.jsonld'} }
+             */
+            delete ret[property]; // N/A for curried names.
+            expr.valueExpr.shapeExprs.forEach(v => {
+              const type = v.substr(Ns_fhsh.length)
+              const curriedPredicate = property
+                    + type.substr(0, 1).toUpperCase() // capitolize this letter
+                    + type.substr(1)
+              /*
+                !! not tested with list. current resources and types have no polymorphic property with max card > 1 per this query:
+                jq '.entry[].resource.differential.element[]? | select((.id | endswith("[x]")) and .max != "1")' profiles-resources.json
+               */
+              ret[curriedPredicate] = {
+                '@id': id,
+                '@context': StupidBaseUrl(type/*.replace(/OneOrMore_/, '')*/)
+              }
+            })
           } else {
             // e.g. `fhir:gender @fhirs:code AND { fhir:value @fhirvs:adminstritative-gender }`
             const ref = firstRef(expr.valueExpr);

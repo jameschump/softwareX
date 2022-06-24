@@ -313,16 +313,35 @@ class FhirShExJGenerator extends ModelVisitor {
     }, []);
 
     if (valueExprs.length > 0) { // 0 if specializing an earlier element
-      const possibleDisjunction = Object.assign(
-        valueExprs.length > 1
-          ? {
-            type: "OneOf",
-            expressions: valueExprs
-          }
-        : valueExprs[0],
-        this.makeCard(propertyMappings[0].element.min, propertyMappings[0].element.max)
-      );
-      this.add(possibleDisjunction); // e.g. MedicationRequest.dose.dosageInstruction
+      if (this.config.axes.v) {
+        const teDisjuncts = Object.assign(
+          valueExprs.length > 1
+            ? {
+              type: "OneOf",
+              expressions: valueExprs
+            }
+          : valueExprs[0],
+          this.makeCard(propertyMappings[0].element.min, propertyMappings[0].element.max)
+        );
+        this.add(teDisjuncts); // e.g. MedicationRequest.dose.dosageInstruction
+      } else {
+        const seDisjuncts =
+              valueExprs.length > 1
+              ? {
+                type: "ShapeOr",
+                shapeExprs: valueExprs.map(ve => ve.valueExpr)
+              }
+              : valueExprs[0].valueExpr
+        const tc = Object.assign(
+          {
+            type: "TripleConstraint",
+            predicate: valueExprs[0].predicate, // if !axes.v, all predicates will be the same
+            valueExpr: seDisjuncts
+          },
+          this.makeCard(propertyMappings[0].element.min, propertyMappings[0].element.max)
+        );
+        this.add(tc);
+      }
     }
   }
 
