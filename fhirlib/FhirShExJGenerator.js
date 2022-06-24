@@ -199,10 +199,17 @@ class FhirShExJGenerator extends ModelVisitor {
     if ("addTypesTo" in this.config && this.config.addTypesTo.indexOf(resourceDef.id) !== -1) {
       this.add(this.makeTripleConstraint(
           Prefixes.rdf + 'type',
-          { "type": "NodeConstraint", "nodeKind": 'nonliteral' },
+          { "type": "NodeConstraint", "nodeKind": 'iri' },
+          {min: 0, max: 1}
+      ));
+    } else if (!this.config.axes.v) {
+      this.add(this.makeTripleConstraint(
+          Prefixes.rdf + 'type',
+          { "type": "NodeConstraint", "values": [Prefixes.fhir + resourceDef.id] },
           {min: 0, max: 1}
       ));
     }
+
     if (FhirShExJGenerator.ResourcesThatNeedALink.indexOf(resourceDef.id) !== -1) {
       this.add(this.makeTripleConstraint(
         Prefixes.fhir + 'link',
