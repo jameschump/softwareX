@@ -31,7 +31,7 @@ class FhirR5Preprocessor {
     const shexpr = this.shexj.shapes.find(s => s.id === NS_fhir + resourceType);
     if (!shexpr)
       throw Object.assign(Error(`No shape found for ${resourceType}`), {shapes: this.shexj.shapes.map(s => s.id)});
-    let graph = this.processFhirObject(input, shexpr, resourceType);
+    let graph = this.processFhirObject(input, shexpr, resourceType, false, false);
 
     // add ontology header
     let hdr = {};
@@ -96,7 +96,7 @@ class FhirR5Preprocessor {
     return v['@value'];
   }
 
-  processFhirObject(fhirObj, schemaObject, resourceType, inside = false) {
+  processFhirObject(fhirObj, schemaObject, resourceType, inside = false, injectTypeArc = false) {
     for (let key in fhirObj) {
       let value = fhirObj[key];
       if (key.startsWith('@')) {
@@ -111,11 +111,14 @@ class FhirR5Preprocessor {
       } else if (key === 'resource' /* TODO: make sure in a Bundle.entry? */) {
         this.processAbstractReference(value, schemaObject, resourceType, inside);
       } else {
-        const [nestObject, nestType, injectTypeArc] = this.lookupNestedObject(schemaObject, resourceType, key);
+        if (injectTypeArc) {
+          fhirObj['@type'] = 'fhir:' + schemaObject.id.substr(NS_fhir.length);
+        }
+        const [nestObject, nestType, nestInjectTypeArc] = this.lookupNestedObject(schemaObject, resourceType, key);
         if (Array.isArray(value)) {
-          fhirObj[key] = this.processFhirArray(key, value, nestObject, nestType);
+          fhirObj[key] = this.processFhirArray(key, value, nestObject, nestType, nestInjectTypeArc);
         } else if (typeof value === 'object') {
-          fhirObj[key] = this.processFhirObject(value, nestObject, nestType, true)
+          fhirObj[key] = this.processFhirObject(value, nestObject, nestType, true, nestInjectTypeArc);
         } else if (key === 'id') {
           fhirObj['@id'] = (inside && !value.startsWith('#') ? '#' : resourceType + '/') + value
           fhirObj.id = this.toFhirValue(fhirObj.id, nestObject, nestType)
@@ -142,7 +145,7 @@ class FhirR5Preprocessor {
     const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
     if (!shapeForContained)
       throw Error(`no ShEx shape found for ${containedType}`);
-    this.processFhirObject(contained, shapeForContained, containedType, true);
+    this.processFhirObject(contained, shapeForContained, containedType, true, injectTypeArc);
   }
 
   lookupNestedObject (schemaObject, resourceType, key) {
@@ -227,13 +230,13 @@ class FhirR5Preprocessor {
     return fhirObj;
   }
 
-  processFhirArray(key, value, schemaObject, resourceType) {
+  processFhirArray(key, value, schemaObject, resourceType, injectTypeArc) {
     return value.map((e, i) => {
       let v = null
       if (Array.isArray(e)) {
         throw Error(`Problem: ${key} has a list in a list`)
       } else if (typeof e === 'object') {
-        v = this.processFhirObject(e, schemaObject, resourceType)
+        v = this.processFhirObject(e, schemaObject, resourceType, injectTypeArc)
       } else {
         v = this.toFhirValue(e, schemaObject, resourceType)
       }
@@ -300,8 +303,8 @@ class FhirR4Preprocessor extends FhirR5Preprocessor {
     return this.opts.axes.h ? typedValue : { 'value': typedValue };
   }
 
-  processFhirObject(fhirObj, schemaObject, resourceType, inside = false) {
-    fhirObj = super.processFhirObject(fhirObj, schemaObject, resourceType, inside);
+  processFhirObject(fhirObj, schemaObject, resourceType, inside = false, injectTypeArc = false) {
+    fhirObj = super.processFhirObject(fhirObj, schemaObject, resourceType, inside, injectTypeArc);
     fhirObj = this.processExtensions(fhirObj);
     return fhirObj;
   }
