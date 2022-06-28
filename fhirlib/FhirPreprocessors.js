@@ -31,7 +31,7 @@ class FhirR5Preprocessor {
     const shexpr = this.shexj.shapes.find(s => s.id === NS_fhir + resourceType);
     if (!shexpr)
       throw Object.assign(Error(`No shape found for ${resourceType}`), {shapes: this.shexj.shapes.map(s => s.id)});
-    let graph = this.processFhirObject(input, shexpr, resourceType);
+    let graph = this.processFhirObject(input, shexpr, resourceType, false, false);
 
     // add ontology header
     let hdr = {};
@@ -96,7 +96,7 @@ class FhirR5Preprocessor {
     return v['@value'];
   }
 
-  processFhirObject(fhirObj, schemaObject, resourceType, inside = false) {
+  processFhirObject(fhirObj, schemaObject, resourceType, inside = false, injectTypeArc = false) {
     for (let key in fhirObj) {
       let value = fhirObj[key];
       if (key.startsWith('@')) {
@@ -111,11 +111,14 @@ class FhirR5Preprocessor {
       } else if (key === 'resource' /* TODO: make sure in a Bundle.entry? */) {
         this.processAbstractReference(value, schemaObject, resourceType, inside);
       } else {
-        const [nestObject, nestType] = this.lookupNestedObject(schemaObject, resourceType, key);
+        if (injectTypeArc) {
+          fhirObj['@type'] = 'fhir:' + schemaObject.id.substr(NS_fhir.length);
+        }
+        const [nestObject, nestType, nestInjectTypeArc] = this.lookupNestedObject(schemaObject, resourceType, key);
         if (Array.isArray(value)) {
-          fhirObj[key] = this.processFhirArray(key, value, nestObject, nestType);
+          fhirObj[key] = this.processFhirArray(key, value, nestObject, nestType, nestInjectTypeArc);
         } else if (typeof value === 'object') {
-          fhirObj[key] = this.processFhirObject(value, nestObject, nestType, true)
+          fhirObj[key] = this.processFhirObject(value, nestObject, nestType, true, nestInjectTypeArc);
         } else if (key === 'id') {
           fhirObj['@id'] = (inside && !value.startsWith('#') ? '#' : resourceType + '/') + value
           fhirObj.id = this.toFhirValue(fhirObj.id, nestObject, nestType)
@@ -142,11 +145,13 @@ class FhirR5Preprocessor {
     const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
     if (!shapeForContained)
       throw Error(`no ShEx shape found for ${containedType}`);
-    this.processFhirObject(contained, shapeForContained, containedType, true);
+    this.processFhirObject(contained, shapeForContained, containedType, true, injectTypeArc);
   }
 
   lookupNestedObject (schemaObject, resourceType, key) {
     let tc = undefined;
+    let nestedShapeExprRef = null;
+    let injectTypeArc = false;
     if (schemaObject.expression.type === "TripleConstraint") {
       tc = schemaObject.expression;
     } else if (schemaObject.expression.type === "EachOf") {
@@ -155,38 +160,51 @@ class FhirR5Preprocessor {
         if (eachOfTE.type === "TripleConstraint") {
           if (eachOfTE.predicate.endsWith('.' + key) || eachOfTE.predicate.endsWith('/' + key)/* nodeRole */) {
             tc = eachOfTE;
+          } else if (!this.opts.axes.v && eachOfTE.valueExpr.type === "ShapeOr") {
+            const valueChoices = eachOfTE.valueExpr.shapeExprs;
+            if ((nestedShapeExprRef = valueChoices.find(ref => {
+              if (typeof ref !== "string") throw Error(`expected only references to datatypes in ${JSON.stringify(eachOfTE)}`);
+              if (!(ref.startsWith(NS_fhir))) throw Error(`reference ${ref} doesn't expected to start with ${NS_fhir}`);
+              const typeLabel = ref.substr(NS_fhir.length);
+              const curriedPredicate = eachOfTE.predicate + typeLabel.substr(0, 1).toUpperCase() + typeLabel.substr(1);
+              return curriedPredicate.endsWith('.' + key) || curriedPredicate.endsWith('/' + key);
+            }))) {
+              tc = eachOfTE;
+              injectTypeArc = true;
+            }
           }
         } else if (eachOfTE.type === "OneOf") {
           tc = eachOfTE.expressions.find(oneOfTE => oneOfTE.predicate.endsWith('.' + key) || oneOfTE.predicate.endsWith('/' + key));
         } else throw Error("HERE");
       }
     }
-    if (!tc) throw Error(`Can't find ${resourceType}.${key} in ${JSON.stringify(schemaObject, null, 2)}`);
-    let te = null;
-    let valueExpr = tc.valueExpr;
-    const Pfhirshex = "http://hl7.org/fhir/shape/";
-    const listOfStem = Pfhirshex + "OneOrMore_";
-    if (typeof valueExpr === "string" && valueExpr.startsWith(listOfStem)) {
-      // TODO: track down actual shape and use firstRef(rdf:first)
-      valueExpr = Pfhirshex + valueExpr.substr(listOfStem.length).replace(/_AND_.*$/, '');
-    }
-    if (typeof valueExpr === "object") {
-      if (valueExpr.type === "ShapeAnd") {
-        te = valueExpr.shapeExprs[0];
-      } else if (valueExpr.type === "ShapeOr") {
-        return [valueExpr, resourceType];
-      } else if (valueExpr.type === "NodeConstraint") {
-        return [valueExpr, resourceType];
-      } else if (valueExpr.type === "Shape") { // nested shapes shows up only in nested schemas
-        return [valueExpr, resourceType];
+    if (!nestedShapeExprRef) {
+      if (!tc) throw Error(`Can't find ${resourceType}.${key} in ${JSON.stringify(schemaObject, null, 2)}`);
+      let valueExpr = tc.valueExpr;
+      const Pfhirshex = "http://hl7.org/fhir/shape/";
+      const listOfStem = Pfhirshex + "OneOrMore_";
+      if (typeof valueExpr === "string" && valueExpr.startsWith(listOfStem)) {
+        // TODO: track down actual shape and use firstRef(rdf:first)
+        valueExpr = Pfhirshex + valueExpr.substr(listOfStem.length).replace(/_AND_.*$/, '');
+      }
+      if (typeof valueExpr === "object") {
+        if (valueExpr.type === "ShapeAnd") {
+          nestedShapeExprRef = valueExpr.shapeExprs[0];
+        } else if (valueExpr.type === "ShapeOr") {
+          return [valueExpr, resourceType, false];
+        } else if (valueExpr.type === "NodeConstraint") {
+          return [valueExpr, resourceType, false];
+        } else if (valueExpr.type === "Shape") { // nested shapes shows up only in nested schemas
+          return [valueExpr, resourceType, false];
+        } else throw Error("HERE");
+      } else if (typeof valueExpr === "string") {
+        if (!valueExpr.startsWith(NS_fhir)) throw Error(`unexpected valueExpr in ${tc}`);
+        nestedShapeExprRef = valueExpr;
       } else throw Error("HERE");
-    } else if (typeof valueExpr === "string") {
-      if (!valueExpr.startsWith(NS_fhir)) throw Error(`unexpected valueExpr in ${tc}`);
-      te = valueExpr;
-    } else throw Error("HERE");
-    const nestObject = this.shexj.shapes.find(se => se.id === te);
-    const nestType = te.substr(NS_fhir.length);
-    return [nestObject, nestType];
+    }
+    const nestObject = this.shexj.shapes.find(se => se.id === nestedShapeExprRef);
+    const nestType = nestedShapeExprRef.substr(NS_fhir.length);
+    return [nestObject, nestType, injectTypeArc];
   }
 
   processExtensions(fhirObj) {
@@ -212,13 +230,13 @@ class FhirR5Preprocessor {
     return fhirObj;
   }
 
-  processFhirArray(key, value, schemaObject, resourceType) {
+  processFhirArray(key, value, schemaObject, resourceType, injectTypeArc) {
     return value.map((e, i) => {
       let v = null
       if (Array.isArray(e)) {
         throw Error(`Problem: ${key} has a list in a list`)
       } else if (typeof e === 'object') {
-        v = this.processFhirObject(e, schemaObject, resourceType)
+        v = this.processFhirObject(e, schemaObject, resourceType, injectTypeArc)
       } else {
         v = this.toFhirValue(e, schemaObject, resourceType)
       }
@@ -285,8 +303,8 @@ class FhirR4Preprocessor extends FhirR5Preprocessor {
     return this.opts.axes.h ? typedValue : { 'value': typedValue };
   }
 
-  processFhirObject(fhirObj, schemaObject, resourceType, inside = false) {
-    fhirObj = super.processFhirObject(fhirObj, schemaObject, resourceType, inside);
+  processFhirObject(fhirObj, schemaObject, resourceType, inside = false, injectTypeArc = false) {
+    fhirObj = super.processFhirObject(fhirObj, schemaObject, resourceType, inside, injectTypeArc);
     fhirObj = this.processExtensions(fhirObj);
     return fhirObj;
   }

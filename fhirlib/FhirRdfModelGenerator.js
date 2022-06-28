@@ -210,7 +210,7 @@ class FhirRdfModelGenerator {
 
               // Calculate final element name.
               const typeCode = typeEntry.code;
-              const curriedName = curried
+              const curriedName = curried && this.opts.axes.v
                     ? name + typeCode.substr(0, 1).toUpperCase() + typeCode.substr(1)
                     : name;
               // Elements and BackboneElements indicate a nested structure.
