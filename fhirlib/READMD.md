@@ -28,3 +28,10 @@ jq '.entry[].resource | select(.id=="Medication") |
 .differential.element[] | select(.type) | [.id, (.type[].code)] |
 join(" -- ")' profiles-resources.json | less
 ```
+## jq recipes
+
+### extract StructureDefinition
+
+To load a StructureDefinition for e.g. `DomainResource`,
+
+```jq '.entry[] | select(.fullUrl=="http://hl7.org/fhir/StructureDefinition/DomainResource")' profiles-resources.json```
