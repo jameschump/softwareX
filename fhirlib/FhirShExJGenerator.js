@@ -54,7 +54,7 @@ class FhirShExJGenerator extends ModelVisitor {
   };
 
   static PARENT_TYPES = ['Resource'];
-  static TODO_ABSTRACT_RESOURCES = ['Base', 'Resource', 'DomainResource', 'CanonicalResource', 'DomainResource'];
+  static TODO_ABSTRACT_RESOURCES = ['Base', 'Resource', 'DomainResource', 'CanonicalResource'];
   static ResourcesThatNeedALink = ["Reference"];
 
   constructor (definitionLoader, config = {}) {

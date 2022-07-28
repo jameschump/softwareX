@@ -145,7 +145,7 @@ class FhirR5Preprocessor {
     const shapeForContained = this.shexj.shapes.find(se => se.id === Prefixes.fhirshex + containedType);
     if (!shapeForContained)
       throw Error(`no ShEx shape found for ${containedType}`);
-    this.processFhirObject(contained, shapeForContained, containedType, true, injectTypeArc);
+    this.processFhirObject(contained, shapeForContained, containedType, true, false);
   }
 
   lookupNestedObject (schemaObject, resourceType, key) {
