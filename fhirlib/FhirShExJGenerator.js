@@ -1,5 +1,5 @@
 const Hierarchy = require('hierarchy-closure');
-const {FhirRdfModelGenerator, PropertyMapping, DefinitionBundleLoader, ModelVisitor} = require('./FhirRdfModelGenerator');
+const {FhirRdfModelGenerator, PropertyMapping, DefinitionBundleLoader, ModelVisitor, DatatypeTypes} = require('./FhirRdfModelGenerator');
 const Prefixes = require('./Prefixes');
 const ShExUtil = require("@shexjs/util");
 const P = require("./Prefixes");
@@ -509,9 +509,10 @@ class FhirShExJGenerator extends ModelVisitor {
    * @returns {FhirShExJGenerator}
    */
   replaceAbstractClasses (generatorConfig = this.config) {
-    const extended = // Object.keys(this.extensions.children) // have more than
-          // .filter(p => this.extensions.children[p].length > 0); // 0 children.
-          FhirShExJGenerator.TODO_ABSTRACT_RESOURCES;
+    const extended = ['Resource']
+          .concat(this.extensions.children['Resource'].filter(
+            p => this.extensions.children[p].length > 0
+          ));
 
     extended.forEach(p => {
       const id = P.fhirshex + p; // the name of this shape
@@ -521,7 +522,7 @@ class FhirShExJGenerator extends ModelVisitor {
       if (!replaceMe)
         throw Error(`did not find ${id} in \n  ${this.schema.shapes.map(se => se.id).join('\n  ')}`);
 
-      const children = this.extensions.children[p] // all children on e
+      const children = (this.extensions.children[p] || []) // all children on e
             .filter(c => this.extensions.children[c].length === 0); // that weren't also extended
 
       const shapeExprs = children.map(c => ({

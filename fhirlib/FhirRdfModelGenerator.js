@@ -1,5 +1,10 @@
 const { StructureError } = require('./errors');
 
+const DatatypeTypes = [
+  "http://hl7.org/fhir/StructureDefinition/DataType",
+  "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+];
+
 /**
  * Used in the visitor API to communicate JSON properties definitions mapped to RDF.
  */
@@ -291,10 +296,7 @@ class FhirRdfModelGenerator {
   makePredicate (resourceDef, path, resourceName, curriedName) {
     return FhirRdfModelGenerator.NS_fhir + // elt.id
       (
-        ([
-          "http://hl7.org/fhir/StructureDefinition/DataType",
-          "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
-        ]).indexOf(resourceDef.baseDefinition) !== -1 || ([
+        DatatypeTypes.indexOf(resourceDef.baseDefinition) !== -1 || ([
           "Timing"
         ]).indexOf(resourceDef.id) !== -1
           ? (
@@ -338,4 +340,4 @@ class FhirRdfModelGenerator {
 }
 
 if (typeof module !== 'undefined')
-  module.exports = {FhirRdfModelGenerator, FhirResourceDefinitionError, FhirElementDefinitionError, ModelVisitor, PropertyMapping};
+  module.exports = {FhirRdfModelGenerator, FhirResourceDefinitionError, FhirElementDefinitionError, ModelVisitor, PropertyMapping, DatatypeTypes};
