@@ -1,5 +1,6 @@
 Prefixes = {
   'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+  'notrdf': 'http://ns.example/not-rdf/',
   'fhir': 'http://hl7.org/fhir/',
   'shex': 'http://www.w3.org/ns/shex#',
   'xsd': 'http://www.w3.org/2001/XMLSchema#',

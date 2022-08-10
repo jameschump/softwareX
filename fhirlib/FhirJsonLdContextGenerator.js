@@ -1,4 +1,5 @@
 const ShExUtil = require('@shexjs/util');
+const Prefixes = require('./Prefixes');
 const Ns_fh = 'http://hl7.org/fhir/'
 const Ns_fhsh = 'http://hl7.org/fhir/shape/'
 const Ns_rdf = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
@@ -15,6 +16,7 @@ class FhirJsonLdContextGenerator {
   static NAMESPACES = {
     "fhir": "http://hl7.org/fhir/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "notrdf": Prefixes.notrdf,
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "owl": "http://www.w3.org/2002/07/owl#",
   }
@@ -154,7 +156,7 @@ class Converter {
               // e.g. `fhir:link IRI`
               ret[property]['@type'] = "@id"
             } else if ("datatype" in expr.valueExpr) {
-              // e.g. `fhir:value xsd:string`
+              // e.g. `notrdf:value xsd:string`
               ret[property]['@type'] = expr.valueExpr.datatype
             }
           } else if (expr.valueExpr.type === "Shape") {
@@ -162,8 +164,8 @@ class Converter {
           } else if (expr.valueExpr.type === "ShapeOr"
                      && !(expr.valueExpr.shapeExprs.find(v => typeof v !== "string"
                                                          || !v.startsWith(Ns_fhsh))) /* all refs */) {
-            /* Observation.value -> { valueAttachment: {@id: 'fhir:value', @context: 'Attachment.context.jsonld'},
-                                      valueBoolean: {@id: 'fhir:value', @context: 'boolean.context.jsonld'} }
+            /* Observation.value -> { valueAttachment: {@id: 'notrdf:value', @context: 'Attachment.context.jsonld'},
+                                      valueBoolean: {@id: 'notrdf:value', @context: 'boolean.context.jsonld'} }
              */
             delete ret[property]; // N/A for curried names.
             expr.valueExpr.shapeExprs.forEach(v => {
@@ -181,7 +183,7 @@ class Converter {
               }
             })
           } else {
-            // e.g. `fhir:gender @fhirs:code AND { fhir:value @fhirvs:adminstritative-gender }`
+            // e.g. `fhir:gender @fhirs:code AND { notrdf:value @fhirvs:adminstritative-gender }`
             const ref = firstRef(expr.valueExpr);
             if (ref) {
               // TODO: why isn't this need here like it is above?: this.findFirstOfCollection(ref, index);
@@ -216,7 +218,8 @@ function shorten (p) {
     return {id: 'rdf:type', attr: 'resourceType'}
   const pairs = [
     {prefix: 'fhir', ns: Ns_fh},
-    {prefix: 'rdf', ns: Ns_rdf}
+    {prefix: 'rdf', ns: Ns_rdf},
+    {prefix: 'notrdf', ns: Prefixes.notrdf}
   ]
   return pairs.reduce((acc, pair) => {
     if (!p.startsWith(pair.ns))

@@ -1,4 +1,5 @@
 const { StructureError } = require('./errors');
+const Prefixes = require('./Prefixes');
 
 const DatatypeTypes = [
   "http://hl7.org/fhir/StructureDefinition/DataType",
@@ -271,7 +272,7 @@ class FhirRdfModelGenerator {
                   const overridePredicate = propertyOverride && propertyOverride.normalPredicate
                         ? predicate
                   // otherwse construct from the bare curried name (e.g. string.value => value, integer64.value => value)
-                        : FhirRdfModelGenerator.NS_fhir + curriedName;
+                        : Prefixes.notrdf + curriedName;
 
                   const pMap = new PropertyMapping(true, elt, curriedName, overridePredicate, nodeConstraint, null, specializes);
                   return acc.concat([pMap]);
