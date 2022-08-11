@@ -45,7 +45,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
   playground.lastParsed = docs();
 
   // set the active tab to the expanded view
-  playground.activeTab = 'tab-expanded';
+  playground.activeTab = 'tab-nquads';
 
   // map of original to modifed contexts
   playground.contextMap = {
@@ -1519,6 +1519,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
    * @return a promise to process
    */
   playground.process = playground._process = function(){
+    playground.outputs[playground.activeTab.substr("tab-".length)].setValue("");
     $('#markup-errors').hide().empty();
     $('#param-errors').hide().empty();
     $('#validation-errors').hide().empty();

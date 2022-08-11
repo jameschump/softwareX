@@ -427,6 +427,12 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
         <div id="output-container">
           <ul id="output-tabs" class="nav nav-tabs">
             <li class="active">
+              <a id="tab-nquads" href="#pane-nquads" data-toggle="tab" name="tab-nquads">
+                <i class="rdf-icon-rdf"></i>
+                <span>Turtle</span>
+              </a>
+            </li>
+            <li>
               <a id="tab-expanded" href="#pane-expanded" data-toggle="tab" name="tab-expanded">
                 <i class="icon-resize-full"></i>
                 <span>Expanded</span>
@@ -451,12 +457,6 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
               </a>
             </li>
             <li>
-              <a id="tab-nquads" href="#pane-nquads" data-toggle="tab" name="tab-nquads">
-                <i class="rdf-icon-rdf"></i>
-                <span>Turtle</span>
-              </a>
-            </li>
-            <li>
               <a id="tab-normalized" href="#pane-normalized" data-toggle="tab" name="tab-normalized">
                 <i class="icon-archive"></i>
                 <span>Normalized</span>
@@ -477,7 +477,10 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
           </ul>
 
           <div class="tab-content">
-            <div id="pane-expanded" class="tab-pane active">
+            <div id="pane-nquads" class="tab-pane active">
+              <textarea id="nquads" class="codemirror-output"></textarea>
+            </div>
+            <div id="pane-expanded" class="tab-pane">
               <textarea id="expanded" class="codemirror-output"></textarea>
             </div>
             <div id="pane-compacted" class="tab-pane">
@@ -488,9 +491,6 @@ yT2IMAWbY76Bmi8TeQJAfdLJGwiDNIhTVYHxvDz79ANzgRAd1kPKPddJZ/w7Gfhm
             </div>
             <div id="pane-framed" class="tab-pane">
               <textarea id="framed" class="codemirror-output"></textarea>
-            </div>
-            <div id="pane-nquads" class="tab-pane">
-              <textarea id="nquads" class="codemirror-output"></textarea>
             </div>
             <div id="pane-normalized" class="tab-pane">
               <textarea id="normalized" class="codemirror-output"></textarea>
