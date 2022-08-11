@@ -114,28 +114,49 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     return await regenShExJ();
   }
 
-  const AxisButtonIds = {
-    r: "Resource",
-    d: "Datatype",
-    v: "Valuetype",
-    c: "RdfCollections",
-    h: "HoistScalars",
+  const AxisButtons = {
+    r: {ord: 0, id: "Resource"},
+    d: {ord: 1, id: "Datatype"},
+    v: {ord: 2, id: "Valuetype"},
+    c: {ord: 3, id: "RdfCollections"},
+    h: {ord: 4, id: "HoistScalars"},
   };
 
+  function prepareAxisButtons () {
+    for (let k in AxisButtons) {
+      const btn = $("#btn-" + AxisButtons[k].id);
+      btn.on("change", function () {
+        editRdvchStatusText(AxisButtons[k].ord, btn);
+        regenShExJ();
+      });
+    }
+  }
+
   function constructAxes () {
-    return Object.keys(AxisButtonIds).reduce((acc, k) => {
-      acc[k] = $("#btn-" + AxisButtonIds[k]).is(":checked");
+    return Object.keys(AxisButtons).reduce((acc, k) => {
+      acc[k] = $("#btn-" + AxisButtons[k].id).is(":checked");
       return acc;
     }, {});
   }
 
   function setAxes (axesStr) { // e.g. rdvCh
-    for (let k in AxisButtonIds) {
-      if (axesStr.indexOf(k) !== -1)
-        $("#btn-" + AxisButtonIds[k]).prop('checked', false);
-      else if (axesStr.indexOf(k.toUpperCase()) !== -1)
-        $("#btn-" + AxisButtonIds[k]).prop('checked', true);
+    for (let k in AxisButtons) {
+      if (axesStr.indexOf(k) !== -1) {
+        const btn = $("#btn-" + AxisButtons[k].id);
+        btn.prop('checked', false);
+        editRdvchStatusText(AxisButtons[k].ord, btn);
+      } else if (axesStr.indexOf(k.toUpperCase()) !== -1) {
+        const btn = $("#btn-" + AxisButtons[k].id);
+        btn.prop('checked', true);
+        editRdvchStatusText(AxisButtons[k].ord, btn);
+      }
     }
+  }
+
+  function editRdvchStatusText (pos, elt) {
+    let text = $("#rdvchStatus").text().split('');
+    text[pos] = $(elt).is(":checked") ? text[pos].toUpperCase() : text[pos].toLowerCase();
+    $("#rdvchStatus").text(text.join(''));
   }
 
   async function regenShExJ () {
@@ -403,17 +424,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
       $(this).tab('show');
     }).on("show", playground.tabSelected);
 
-    $("#btn-Resource, #btn-Datatype, #btn-Valuetype, #btn-RdfCollections, #btn-HoistScalars").on("change", regenShExJ);
-    $("#btn-Resource"      ).on("change", function () { editRdvchStatusText(0, this); });
-    $("#btn-Datatype"      ).on("change", function () { editRdvchStatusText(1, this); });
-    $("#btn-Valuetype"     ).on("change", function () { editRdvchStatusText(2, this); });
-    $("#btn-RdfCollections").on("change", function () { editRdvchStatusText(3, this); });
-    $("#btn-HoistScalars"  ).on("change", function () { editRdvchStatusText(4, this); });
-    function editRdvchStatusText (pos, elt) {
-      let text = $("#rdvchStatus").text().split('');
-      text[pos] = $(elt).is(":checked") ? text[pos].toUpperCase() : text[pos].toLowerCase();
-      $("#rdvchStatus").text(text.join(''));
-    }
+    prepareAxisButtons();
 
     // show keybaord shortcuts
     $('.popover-info').popover({
