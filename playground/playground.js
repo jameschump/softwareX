@@ -114,13 +114,27 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     return await regenShExJ();
   }
 
+  const AxisButtonIds = {
+    r: "Resource",
+    d: "Datatype",
+    v: "Valuetype",
+    c: "RdfCollections",
+    h: "HoistScalars",
+  };
+
   function constructAxes () {
-    return {
-      r: $("#btn-Resource").is(":checked"),
-      d: $("#btn-Datatype").is(":checked"),
-      v: $("#btn-Valuetype").is(":checked"),
-      c: $("#btn-RdfCollections").is(":checked"),
-      h: $("#btn-HoistScalars").is(":checked"),
+    return Object.keys(AxisButtonIds).reduce((acc, k) => {
+      acc[k] = $("#btn-" + AxisButtonIds[k]).is(":checked");
+      return acc;
+    }, {});
+  }
+
+  function setAxes (axesStr) { // e.g. rdvCh
+    for (let k in AxisButtonIds) {
+      if (axesStr.indexOf(k) !== -1)
+        $("#btn-" + AxisButtonIds[k]).prop('checked', false);
+      else if (axesStr.indexOf(k.toUpperCase()) !== -1)
+        $("#btn-" + AxisButtonIds[k]).prop('checked', true);
     }
   }
 
@@ -2008,6 +2022,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
       getParameterByName('manifestURL') || 'playground/manifest.json',
       window.location
     );
+    setAxes(getParameterByName('axes'));
 
     $('#use-context-map').change(function() {
       playground.process();
