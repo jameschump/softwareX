@@ -272,7 +272,7 @@ class FhirRdfModelGenerator {
                   const overridePredicate = propertyOverride && propertyOverride.normalPredicate
                         ? predicate
                   // otherwse construct from the bare curried name (e.g. string.value => value, integer64.value => value)
-                        : Prefixes.notrdf + curriedName;
+                        : FhirRdfModelGenerator.NS_fhir + 'v';
 
                   const pMap = new PropertyMapping(true, elt, curriedName, overridePredicate, nodeConstraint, null, specializes);
                   return acc.concat([pMap]);

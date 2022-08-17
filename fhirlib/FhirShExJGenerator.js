@@ -294,7 +294,7 @@ class FhirShExJGenerator extends ModelVisitor {
             const expression = Object.assign(
               {
                 type: "TripleConstraint",
-                predicate: Prefixes.notrdf + 'value',
+                predicate: Prefixes.fhir + 'v',
                 valueExpr: Prefixes.fhirvs + valueSet
               },
               annotations

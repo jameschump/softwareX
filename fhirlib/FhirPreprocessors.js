@@ -67,7 +67,7 @@ class FhirR5Preprocessor {
   }
 
   fromFhirValue(value) {
-    return value['value'] || value['@value'] || value
+    return value['v'] || value['@value'] || value
   }
 
   toFhirValue(value) {
@@ -284,7 +284,7 @@ class FhirR4Preprocessor extends FhirR5Preprocessor {
   toFhirValue(jsonValue, schemaObject, nestType) {
     let typedValue = null;
 
-    const [nestScalar, t] = this.lookupNestedObject(schemaObject, nestType, "value");
+    const [nestScalar, t] = this.lookupNestedObject(schemaObject, nestType, "v");
     if (nestScalar.type === "NodeConstraint") {
       typedValue = {
         "@type": nestScalar.datatype.replace(/^http:\/\/www\.w3\.org\/2001\/XMLSchema#/, "xsd:"),
@@ -300,7 +300,7 @@ class FhirR4Preprocessor extends FhirR5Preprocessor {
     } else {
       throw new Error(`deal with toFhirValue(${JSON.stringify(jsonValue)}, ${JSON.stringify(schemaObject)}, ${JSON.stringify(nestType)})`);
     }
-    return this.opts.axes.h ? typedValue : { 'value': typedValue };
+    return this.opts.axes.h ? typedValue : { 'v': typedValue };
   }
 
   processFhirObject(fhirObj, schemaObject, resourceType, inside = false, injectTypeArc = false) {
