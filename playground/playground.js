@@ -139,7 +139,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
     }, {});
   }
 
-  function setAxes (axesStr) { // e.g. rdvCh
+  function setAxes (axesStr = "rdvCh") {
     for (let k in AxisButtons) {
       if (axesStr.indexOf(k) !== -1) {
         const btn = $("#btn-" + AxisButtons[k].id);
@@ -222,12 +222,12 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
    *
    * @param name a query parameter name.
    *
-   * @return the value of the parameter or null if it does not exist
+   * @return the value of the parameter or undefined if it does not exist
    */
   function getParameterByName(name) {
     var match = new RegExp('[#?&]' + name + '=([^&]*)')
       .exec(window.location.hash || window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    return (match && decodeURIComponent(match[1].replace(/\+/g, ' '))) || undefined;
   }
 
 
