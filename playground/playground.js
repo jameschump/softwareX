@@ -275,7 +275,7 @@ const GEN_JSONLD_CONTEXT_CONFIG = {
       var rval = null;
 
       // check 'json-ld' parameter
-      if(param !== null) {
+      if(param !== undefined) {
         if(param.length === 0 || param[0] === '{' || param[0] === '[') {
           // param looks like JSON, try to parse it
           try {
