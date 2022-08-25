@@ -112,7 +112,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -165,7 +165,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -206,7 +206,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -267,14 +267,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
@@ -297,14 +297,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
@@ -327,7 +327,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -569,14 +569,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
       }
     }
@@ -599,14 +599,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#base64Binary"
       }
     }
@@ -629,14 +629,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#boolean"
       }
     }
@@ -659,15 +659,15 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+      "v": {
+        "@id": "fhir:v",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
   },
@@ -689,14 +689,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
@@ -719,14 +719,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value"
+      "v": {
+        "@id": "fhir:v"
       }
     }
   },
@@ -748,14 +748,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value"
+      "v": {
+        "@id": "fhir:v"
       }
     }
   },
@@ -777,14 +777,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value"
+      "v": {
+        "@id": "fhir:v"
       }
     }
   },
@@ -806,14 +806,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
       }
     }
@@ -836,14 +836,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#integer"
       }
     }
@@ -866,14 +866,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#long"
       }
     }
@@ -896,14 +896,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
@@ -926,15 +926,15 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+      "v": {
+        "@id": "fhir:v",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
   },
@@ -956,14 +956,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#integer"
       }
     }
@@ -986,14 +986,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#time"
       }
     }
@@ -1016,14 +1016,14 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
+      "v": {
+        "@id": "fhir:v",
         "@type": "http://www.w3.org/2001/XMLSchema#integer"
       }
     }
@@ -1046,15 +1046,15 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+      "v": {
+        "@id": "fhir:v",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
   },
@@ -1076,15 +1076,15 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
         "@context": "Extension.context.jsonld"
       },
-      "value": {
-        "@id": "fhir:value",
-        "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+      "v": {
+        "@id": "fhir:v",
+        "@type": "http://www.w3.org/2001/XMLSchema#string"
       }
     }
   },
@@ -1106,7 +1106,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1172,7 +1172,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1206,7 +1206,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1252,7 +1252,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1298,7 +1298,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1340,7 +1340,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1390,7 +1390,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1424,7 +1424,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1470,7 +1470,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1548,7 +1548,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1582,7 +1582,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1628,7 +1628,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1674,7 +1674,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1720,7 +1720,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1766,7 +1766,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1820,7 +1820,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1854,7 +1854,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1900,7 +1900,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1934,7 +1934,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -1968,7 +1968,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2006,7 +2006,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2060,7 +2060,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2114,7 +2114,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2141,7 +2141,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -2241,7 +2241,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2275,7 +2275,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2313,7 +2313,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2352,7 +2352,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -2389,7 +2389,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -2434,7 +2434,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -2470,7 +2470,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2516,7 +2516,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2570,7 +2570,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2607,6 +2607,14 @@
       "resourceReference": {
         "@id": "fhir:RelatedArtifact.resourceReference",
         "@context": "Reference.context.jsonld"
+      },
+      "publicationStatus": {
+        "@id": "fhir:RelatedArtifact.publicationStatus",
+        "@context": "code.context.jsonld"
+      },
+      "publicationDate": {
+        "@id": "fhir:RelatedArtifact.publicationDate",
+        "@context": "date.context.jsonld"
       }
     }
   },
@@ -2628,7 +2636,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2686,7 +2694,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2732,7 +2740,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2795,7 +2803,7 @@
           },
           "id": {
             "@id": "fhir:Element.id",
-            "@context": "string.context.jsonld"
+            "@context": "id.context.jsonld"
           },
           "extension": {
             "@id": "fhir:Element.extension",
@@ -2859,7 +2867,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",
@@ -2909,7 +2917,7 @@
       },
       "id": {
         "@id": "fhir:Element.id",
-        "@context": "string.context.jsonld"
+        "@context": "id.context.jsonld"
       },
       "extension": {
         "@id": "fhir:Element.extension",

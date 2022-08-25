@@ -88,7 +88,7 @@ class Converter {
           {},
           FhirJsonLdContextGenerator.HEADER,
           FhirJsonLdContextGenerator.NAMESPACES,
-          this.visitShapeExpr(shexpr, index)
+          this.visitShapeDecl(shexpr, index)
       ) // this.lookup(from)
     }
     return ret
@@ -103,12 +103,17 @@ class Converter {
     return found
   }
 
+  visitShapeDecl (shexpr, index) {
+    return this.visitShapeExpr(shexpr.shapeExpr, index);
+  }
+
   visitShapeExpr (shexpr, index) {
     if (typeof shexpr === 'string')
       return this.visitShapeExpr(this.lookup(shexpr), index);
 
     switch (shexpr.type) {
-    case 'Shape': return this.visit(shexpr.expression, index);
+    case 'Shape':
+      return this.visitShape(shexpr, index);
     case 'ShapeOr': {
       return Object.assign.apply(Object, shexpr.shapeExprs.map(junct => this.visitShapeExpr(junct, index)));
     }
@@ -118,14 +123,24 @@ class Converter {
     }
   }
 
-  visit (expr, index) {
+  visitShape (shape, index) {
+    const bases = (shape.extends || []).map(extended => {
+      const found = this.schema.shapes.find(e => e.id === extended)
+      return this.visitShape(found.shapeExpr, index)
+    }).concat(
+      this.visitTripleExpr(shape.expression, index)
+    )
+    return Object.assign.apply({}, bases);
+  }
+
+  visitTripleExpr (expr, index) {
     switch (expr.type) {
       case 'OneOf':
       case 'EachOf':
         return Object.assign(
             {},
             FhirJsonLdContextGenerator.TYPE_AND_INDEX, // rdf:type, fhir:index, and all of the...
-            Object.assign.apply({}, expr.expressions.map(e => this.visit(e, index))) // generated properties
+            Object.assign.apply({}, expr.expressions.map(e => this.visitTripleExpr(e, index))) // generated properties
         )
       case 'TripleConstraint':
         const {id, property} = shorten(expr.predicate)
@@ -140,7 +155,7 @@ class Converter {
         if (typeof expr.valueExpr === "string") {
           if (false && expr.valueExpr.substr(Ns_fhsh.length).match(/\./)) { // would need cycle detection, currently left up to
             // '.'d reference to a nested Shape, e.g. `fhirs:Patient.contact`
-            ret[property]['@context'] = this.visit(this.lookup(expr.valueExpr).expression)
+            ret[property]['@context'] = this.visitTripleExpr(this.lookup(expr.valueExpr).expression)
           } else {
             // all other references (Datatypes, Resources)
             const firstRef = this.findFirstOfCollection(expr.valueExpr, index)
@@ -159,7 +174,7 @@ class Converter {
               ret[property]['@type'] = expr.valueExpr.datatype
             }
           } else if (expr.valueExpr.type === "Shape") {
-            ret[property]['@context'] = this.visit(expr.valueExpr.expression)
+            ret[property]['@context'] = this.visitShape(expr.valueExpr)
           } else if (expr.valueExpr.type === "ShapeOr"
                      && !(expr.valueExpr.shapeExprs.find(v => typeof v !== "string"
                                                          || !v.startsWith(Ns_fhsh))) /* all refs */) {

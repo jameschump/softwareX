@@ -9,6 +9,7 @@ const N3Store = require('n3/lib/N3Store').default;
 const N3DataFactory = require('n3/lib/N3DataFactory').default;
 const ShExUtil = require('@shexjs/util');
 const ShExValidator = require('@shexjs/validator');
+const { ctor: RdfJsDb } = require('@shexjs/neighborhood-rdfjs')
 
 class Serializer {
   store = null;
@@ -25,7 +26,7 @@ class Serializer {
     // printer.addQuads([typeTriple, rootTriple]);
 
     const shape = P.fhirshex + type;
-    const db = ShExUtil.rdfjsDB(resource.store, null); // no query tracker needed
+    const db = RdfJsDb(resource.store, null); // no query tracker needed
     const validator = ShExValidator.construct(this.schema, db, {
       regexModule: EvalSimple1err
     });

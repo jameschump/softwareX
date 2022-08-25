@@ -25,26 +25,26 @@
 <http://hl7.org/fhir/AllergyIntolerance/example> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://hl7.org/fhir/AllergyIntolerance> .
 _:b0 <http://hl7.org/fhir/Reference.reference> _:b1 .
 _:b0 <http://hl7.org/fhir/link> <http://hl7.org/Patient/example> .
-_:b1 <http://hl7.org/fhir/value> "Patient/example" .
-_:b10 <http://hl7.org/fhir/value> "227493005" .
-_:b11 <http://hl7.org/fhir/value> "Cashew nuts" .
-_:b12 <http://hl7.org/fhir/value> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
-_:b13 <http://hl7.org/fhir/value> "high" .
+_:b1 <http://hl7.org/fhir/v> "Patient/example" .
+_:b10 <http://hl7.org/fhir/v> "227493005" .
+_:b11 <http://hl7.org/fhir/v> "Cashew nuts" .
+_:b12 <http://hl7.org/fhir/v> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b13 <http://hl7.org/fhir/v> "high" .
 _:b14 <http://hl7.org/fhir/Identifier.system> _:b15 .
 _:b14 <http://hl7.org/fhir/Identifier.value> _:b16 .
 _:b14 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
-_:b15 <http://hl7.org/fhir/value> "http://acme.com/ids/patients/risks"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
-_:b16 <http://hl7.org/fhir/value> "49476534" .
-_:b17 <http://hl7.org/fhir/value> "2012-06"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:b15 <http://hl7.org/fhir/v> "http://acme.com/ids/patients/risks"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b16 <http://hl7.org/fhir/v> "49476534" .
+_:b17 <http://hl7.org/fhir/v> "2012-06"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 _:b18 <http://hl7.org/fhir/Annotation.text> _:b19 .
 _:b18 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
-_:b19 <http://hl7.org/fhir/value> "The criticality is high becasue of the observed anaphylactic reaction when challenged with cashew extract." .
+_:b19 <http://hl7.org/fhir/v> "The criticality is high becasue of the observed anaphylactic reaction when challenged with cashew extract." .
 _:b2 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
-_:b2 <http://hl7.org/fhir/value> "food" .
-_:b20 <http://hl7.org/fhir/value> "2004"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:b2 <http://hl7.org/fhir/v> "food" .
+_:b20 <http://hl7.org/fhir/v> "2004"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 _:b21 <http://hl7.org/fhir/Reference.reference> _:b22 .
 _:b21 <http://hl7.org/fhir/link> <http://hl7.org/Patient/example> .
-_:b22 <http://hl7.org/fhir/value> "Patient/example" .
+_:b22 <http://hl7.org/fhir/v> "Patient/example" .
 _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.description> _:b24 .
 _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.exposureRoute> _:b25 .
 _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.manifestation> _:b30 .
@@ -52,16 +52,16 @@ _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.onset> _:b35 .
 _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.severity> _:b36 .
 _:b23 <http://hl7.org/fhir/AllergyIntolerance.reaction.substance> _:b37 .
 _:b23 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
-_:b24 <http://hl7.org/fhir/value> "Challenge Protocol. Severe reaction to subcutaneous cashew extract. Epinephrine administered" .
+_:b24 <http://hl7.org/fhir/v> "Challenge Protocol. Severe reaction to subcutaneous cashew extract. Epinephrine administered" .
 _:b25 <http://hl7.org/fhir/CodeableConcept.coding> _:b26 .
 _:b26 <http://hl7.org/fhir/Coding.code> _:b27 .
 _:b26 <http://hl7.org/fhir/Coding.display> _:b28 .
 _:b26 <http://hl7.org/fhir/Coding.system> _:b29 .
 _:b26 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b26 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://snomed.info/id/34206005> .
-_:b27 <http://hl7.org/fhir/value> "34206005" .
-_:b28 <http://hl7.org/fhir/value> "Subcutaneous route" .
-_:b29 <http://hl7.org/fhir/value> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b27 <http://hl7.org/fhir/v> "34206005" .
+_:b28 <http://hl7.org/fhir/v> "Subcutaneous route" .
+_:b29 <http://hl7.org/fhir/v> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
 _:b3 <http://hl7.org/fhir/CodeableConcept.coding> _:b4 .
 _:b30 <http://hl7.org/fhir/CodeableConcept.coding> _:b31 .
 _:b30 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
@@ -70,25 +70,25 @@ _:b31 <http://hl7.org/fhir/Coding.display> _:b33 .
 _:b31 <http://hl7.org/fhir/Coding.system> _:b34 .
 _:b31 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b31 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://snomed.info/id/39579001> .
-_:b32 <http://hl7.org/fhir/value> "39579001" .
-_:b33 <http://hl7.org/fhir/value> "Anaphylactic reaction" .
-_:b34 <http://hl7.org/fhir/value> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
-_:b35 <http://hl7.org/fhir/value> "2012-06-12"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-_:b36 <http://hl7.org/fhir/value> "severe" .
+_:b32 <http://hl7.org/fhir/v> "39579001" .
+_:b33 <http://hl7.org/fhir/v> "Anaphylactic reaction" .
+_:b34 <http://hl7.org/fhir/v> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b35 <http://hl7.org/fhir/v> "2012-06-12"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:b36 <http://hl7.org/fhir/v> "severe" .
 _:b37 <http://hl7.org/fhir/CodeableConcept.coding> _:b38 .
 _:b38 <http://hl7.org/fhir/Coding.code> _:b39 .
 _:b38 <http://hl7.org/fhir/Coding.display> _:b40 .
 _:b38 <http://hl7.org/fhir/Coding.system> _:b41 .
 _:b38 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b38 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.nlm.nih.gov/research/umls/rxnorm/1160593> .
-_:b39 <http://hl7.org/fhir/value> "1160593" .
+_:b39 <http://hl7.org/fhir/v> "1160593" .
 _:b4 <http://hl7.org/fhir/Coding.code> _:b5 .
 _:b4 <http://hl7.org/fhir/Coding.display> _:b6 .
 _:b4 <http://hl7.org/fhir/Coding.system> _:b7 .
 _:b4 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical/active> .
-_:b40 <http://hl7.org/fhir/value> "cashew nut allergenic extract Injectable Product" .
-_:b41 <http://hl7.org/fhir/value> "http://www.nlm.nih.gov/research/umls/rxnorm"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b40 <http://hl7.org/fhir/v> "cashew nut allergenic extract Injectable Product" .
+_:b41 <http://hl7.org/fhir/v> "http://www.nlm.nih.gov/research/umls/rxnorm"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
 _:b42 <http://hl7.org/fhir/AllergyIntolerance.reaction.manifestation> _:b43 .
 _:b42 <http://hl7.org/fhir/AllergyIntolerance.reaction.note> _:b48 .
 _:b42 <http://hl7.org/fhir/AllergyIntolerance.reaction.onset> _:b50 .
@@ -101,35 +101,35 @@ _:b44 <http://hl7.org/fhir/Coding.display> _:b46 .
 _:b44 <http://hl7.org/fhir/Coding.system> _:b47 .
 _:b44 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b44 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://snomed.info/id/64305001> .
-_:b45 <http://hl7.org/fhir/value> "64305001" .
-_:b46 <http://hl7.org/fhir/value> "Urticaria" .
-_:b47 <http://hl7.org/fhir/value> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b45 <http://hl7.org/fhir/v> "64305001" .
+_:b46 <http://hl7.org/fhir/v> "Urticaria" .
+_:b47 <http://hl7.org/fhir/v> "http://snomed.info/sct"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
 _:b48 <http://hl7.org/fhir/Annotation.text> _:b49 .
 _:b48 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
-_:b49 <http://hl7.org/fhir/value> "The patient reports that the onset of urticaria was within 15 minutes of eating cashews." .
-_:b5 <http://hl7.org/fhir/value> "active" .
-_:b50 <http://hl7.org/fhir/value> "2004"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-_:b51 <http://hl7.org/fhir/value> "moderate" .
-_:b52 <http://hl7.org/fhir/value> "2014-10-09T14:58:00+11:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:b49 <http://hl7.org/fhir/v> "The patient reports that the onset of urticaria was within 15 minutes of eating cashews." .
+_:b5 <http://hl7.org/fhir/v> "active" .
+_:b50 <http://hl7.org/fhir/v> "2004"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+_:b51 <http://hl7.org/fhir/v> "moderate" .
+_:b52 <http://hl7.org/fhir/v> "2014-10-09T14:58:00+11:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 _:b53 <http://hl7.org/fhir/Reference.reference> _:b54 .
 _:b53 <http://hl7.org/fhir/link> <http://hl7.org/Practitioner/example> .
-_:b54 <http://hl7.org/fhir/value> "Practitioner/example" .
-_:b55 <http://hl7.org/fhir/value> "allergy" .
+_:b54 <http://hl7.org/fhir/v> "Practitioner/example" .
+_:b55 <http://hl7.org/fhir/v> "allergy" .
 _:b56 <http://hl7.org/fhir/CodeableConcept.coding> _:b57 .
 _:b57 <http://hl7.org/fhir/Coding.code> _:b58 .
 _:b57 <http://hl7.org/fhir/Coding.display> _:b59 .
 _:b57 <http://hl7.org/fhir/Coding.system> _:b60 .
 _:b57 <http://hl7.org/fhir/index> "0"^^<http://www.w3.org/2001/XMLSchema#integer> .
 _:b57 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://terminology.hl7.org/CodeSystem/allergyintolerance-verification/confirmed> .
-_:b58 <http://hl7.org/fhir/value> "confirmed" .
-_:b59 <http://hl7.org/fhir/value> "Confirmed" .
-_:b6 <http://hl7.org/fhir/value> "Active" .
-_:b60 <http://hl7.org/fhir/value> "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b58 <http://hl7.org/fhir/v> "confirmed" .
+_:b59 <http://hl7.org/fhir/v> "Confirmed" .
+_:b6 <http://hl7.org/fhir/v> "Active" .
+_:b60 <http://hl7.org/fhir/v> "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
 _:b61 <http://hl7.org/fhir/Narrative.div> "<div>…</div>" .
 _:b61 <http://hl7.org/fhir/Narrative.status> _:b62 .
-_:b62 <http://hl7.org/fhir/value> "generated" .
-_:b63 <http://hl7.org/fhir/value> "example" .
-_:b7 <http://hl7.org/fhir/value> "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
+_:b62 <http://hl7.org/fhir/v> "generated" .
+_:b63 <http://hl7.org/fhir/v> "example" .
+_:b7 <http://hl7.org/fhir/v> "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"^^<http://www.w3.org/2001/XMLSchema#anyURI> .
 _:b8 <http://hl7.org/fhir/CodeableConcept.coding> _:b9 .
 _:b9 <http://hl7.org/fhir/Coding.code> _:b10 .
 _:b9 <http://hl7.org/fhir/Coding.display> _:b11 .

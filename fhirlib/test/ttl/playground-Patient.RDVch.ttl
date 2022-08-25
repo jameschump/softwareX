@@ -4,49 +4,49 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 <http://hl7.org/fhir/Patient/pat1> a fhir:Patient ;
   fhir:nodeRole fhir:treeRoot ;
-  fhir:Resource.id [ fhir:value "pat1" ] ;
+  fhir:Resource.id [ fhir:v "pat1" ] ;
   fhir:DomainResource.text [
-    fhir:Narrative.status [ fhir:value "generated" ] ;
+    fhir:Narrative.status [ fhir:v "generated" ] ;
     fhir:Narrative.div "<div>…</div>"
   ] ;
   fhir:Patient.identifier [
-    fhir:Identifier.system [ fhir:value "urn:oid:0.1.2.3.4.5.6.7"^^xsd:anyURI ] ;
+    fhir:Identifier.system [ fhir:v "urn:oid:0.1.2.3.4.5.6.7"^^xsd:anyURI ] ;
     fhir:Identifier.type [
       fhir:CodeableConcept.coding [
         a <http://terminology.hl7.org/CodeSystem/v2-0203/MR> ;
-        fhir:Coding.code [ fhir:value "MR" ] ;
-        fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/v2-0203"^^xsd:anyURI ] ;
+        fhir:Coding.code [ fhir:v "MR" ] ;
+        fhir:Coding.system [ fhir:v "http://terminology.hl7.org/CodeSystem/v2-0203"^^xsd:anyURI ] ;
         fhir:index 0
       ]
     ] ;
-    fhir:Identifier.use [ fhir:value "usual" ] ;
-    fhir:Identifier.value [ fhir:value "654321" ] ;
+    fhir:Identifier.use [ fhir:v "usual" ] ;
+    fhir:Identifier.value [ fhir:v "654321" ] ;
     fhir:index 0
   ] ;
   fhir:Patient.active true ;
   fhir:Patient.name [
-    fhir:HumanName.family [ fhir:value "Donald" ] ;
-    fhir:HumanName.given [ fhir:value "Duck" ; fhir:index 0 ] ;
-    fhir:HumanName.use [ fhir:value "official" ] ;
+    fhir:HumanName.family [ fhir:v "Donald" ] ;
+    fhir:HumanName.given [ fhir:v "Duck" ; fhir:index 0 ] ;
+    fhir:HumanName.use [ fhir:v "official" ] ;
     fhir:index 0
   ] ;
-  fhir:Patient.gender [ fhir:value "male" ] ;
+  fhir:Patient.gender [ fhir:v "male" ] ;
   fhir:Patient.photo [
-   fhir:Attachment.contentType [ fhir:value "image/gif" ] ;
-   fhir:Attachment.data [ fhir:value "R0l…AA7"^^xsd:base64Binary ] ;
+   fhir:Attachment.contentType [ fhir:v "image/gif" ] ;
+   fhir:Attachment.data [ fhir:v "R0l…AA7"^^xsd:base64Binary ] ;
    fhir:index 0
   ] ;
   fhir:Patient.contact [
     fhir:Patient.contact.organization [
-      fhir:Reference.display [ fhir:value "Walt Disney Corporation" ] ;
-      fhir:Reference.reference [ fhir:value "Organization/1" ] ;
+      fhir:Reference.display [ fhir:v "Walt Disney Corporation" ] ;
+      fhir:Reference.reference [ fhir:v "Organization/1" ] ;
       fhir:link <http://hl7.org/Organization/1>
     ] ;
     fhir:Patient.contact.relationship [
       fhir:CodeableConcept.coding [
         a <http://terminology.hl7.org/CodeSystem/v2-0131/E> ;
-        fhir:Coding.code [ fhir:value "E" ] ;
-        fhir:Coding.system [ fhir:value "http://terminology.hl7.org/CodeSystem/v2-0131"^^xsd:anyURI ] ;
+        fhir:Coding.code [ fhir:v "E" ] ;
+        fhir:Coding.system [ fhir:v "http://terminology.hl7.org/CodeSystem/v2-0131"^^xsd:anyURI ] ;
         fhir:index 0
       ] ;
       fhir:index 0
@@ -55,15 +55,15 @@ PREFIX owl: <http://www.w3.org/2002/07/owl#>
   ] ;
   fhir:Patient.managingOrganization [
     fhir:link <http://hl7.org/Organization/1> ;
-    fhir:Reference.display [ fhir:value "ACME Healthcare, Inc" ] ;
-    fhir:Reference.reference [ fhir:value "Organization/1" ]
+    fhir:Reference.display [ fhir:v "ACME Healthcare, Inc" ] ;
+    fhir:Reference.reference [ fhir:v "Organization/1" ]
   ] ;
   fhir:Patient.link [
     fhir:Patient.link.other [
       fhir:link <http://hl7.org/Patient/pat2> ;
-      fhir:Reference.reference [ fhir:value "Patient/pat2" ]
+      fhir:Reference.reference [ fhir:v "Patient/pat2" ]
     ] ;
-    fhir:Patient.link.type [ fhir:value "seealso" ] ;
+    fhir:Patient.link.type [ fhir:v "seealso" ] ;
     fhir:index 0
   ] .
 

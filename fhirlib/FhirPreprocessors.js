@@ -31,7 +31,7 @@ class FhirR5Preprocessor {
     const shexpr = this.shexj.shapes.find(s => s.id === NS_fhir + resourceType);
     if (!shexpr)
       throw Object.assign(Error(`No shape found for ${resourceType}`), {shapes: this.shexj.shapes.map(s => s.id)});
-    let graph = this.processFhirObject(input, shexpr, resourceType, false, false);
+    let graph = this.processFhirObject(input, shexpr.shapeExpr, resourceType, false, false);
 
     // add ontology header
     let hdr = {};
@@ -149,35 +149,7 @@ class FhirR5Preprocessor {
   }
 
   lookupNestedObject (schemaObject, resourceType, key) {
-    let tc = undefined;
-    let nestedShapeExprRef = null;
-    let injectTypeArc = false;
-    if (schemaObject.expression.type === "TripleConstraint") {
-      tc = schemaObject.expression;
-    } else if (schemaObject.expression.type === "EachOf") {
-      for (let i = 0; tc === undefined && i < schemaObject.expression.expressions.length; ++i) {
-        const eachOfTE = schemaObject.expression.expressions[i];
-        if (eachOfTE.type === "TripleConstraint") {
-          if (eachOfTE.predicate.endsWith('.' + key) || eachOfTE.predicate.endsWith('/' + key)/* nodeRole */) {
-            tc = eachOfTE;
-          } else if (!this.opts.axes.v && eachOfTE.valueExpr.type === "ShapeOr") {
-            const valueChoices = eachOfTE.valueExpr.shapeExprs;
-            if ((nestedShapeExprRef = valueChoices.find(ref => {
-              if (typeof ref !== "string") throw Error(`expected only references to datatypes in ${JSON.stringify(eachOfTE)}`);
-              if (!(ref.startsWith(NS_fhir))) throw Error(`reference ${ref} doesn't expected to start with ${NS_fhir}`);
-              const typeLabel = ref.substr(NS_fhir.length);
-              const curriedPredicate = eachOfTE.predicate + typeLabel.substr(0, 1).toUpperCase() + typeLabel.substr(1);
-              return curriedPredicate.endsWith('.' + key) || curriedPredicate.endsWith('/' + key);
-            }))) {
-              tc = eachOfTE;
-              injectTypeArc = true;
-            }
-          }
-        } else if (eachOfTE.type === "OneOf") {
-          tc = eachOfTE.expressions.find(oneOfTE => oneOfTE.predicate.endsWith('.' + key) || oneOfTE.predicate.endsWith('/' + key));
-        } else throw Error("HERE");
-      }
-    }
+    let {tc, nestedShapeExprRef, injectTypeArc} = this.findMatchingPredicateInShape(schemaObject, key);
     if (!nestedShapeExprRef) {
       if (!tc) throw Error(`Can't find ${resourceType}.${key} in ${JSON.stringify(schemaObject, null, 2)}`);
       let valueExpr = tc.valueExpr;
@@ -202,9 +174,51 @@ class FhirR5Preprocessor {
         nestedShapeExprRef = valueExpr;
       } else throw Error("HERE");
     }
-    const nestObject = this.shexj.shapes.find(se => se.id === nestedShapeExprRef);
+    const nestObject = this.shexj.shapes.find(se => se.id === nestedShapeExprRef).shapeExpr;
     const nestType = nestedShapeExprRef.substr(NS_fhir.length);
     return [nestObject, nestType, injectTypeArc];
+  }
+
+  findMatchingPredicateInShape (schemaObject, key) {
+    for (let extended of (schemaObject.extends || [])) {
+      const parent = this.shexj.shapes.find(se => se.id === extended);
+      const {tc, nestedShapeExprRef, injectTypeArc} = this.findMatchingPredicateInShape(parent.shapeExpr, key);
+      if (tc)
+        return {tc, nestedShapeExprRef, injectTypeArc};
+    }
+    return this.findMatchingPredicateInTripleExpression(schemaObject, key);
+  }
+
+  findMatchingPredicateInTripleExpression (schemaObject, key) {
+    const candidates = schemaObject.expression.type === "TripleConstraint"
+          ? [schemaObject.expression]
+          : schemaObject.expression.type === "EachOf"
+          ? schemaObject.expression.expressions
+          : (() => {throw Error(`findMatchingPredicateInTripleExpression doesn't deal with schemaObject.expression.type`)})();
+    let tc, nestedShapeExprRef, injectTypeArc;
+    for (let i = 0; tc === undefined && i < candidates.length; ++i) {
+        const eachOfTE = candidates[i];
+        if (eachOfTE.type === "TripleConstraint") {
+          if (eachOfTE.predicate.endsWith('.' + key) || eachOfTE.predicate.endsWith('/' + key)/* nodeRole */) {
+            tc = eachOfTE;
+          } else if (!this.opts.axes.v && eachOfTE.valueExpr.type === "ShapeOr") {
+            const valueChoices = eachOfTE.valueExpr.shapeExprs;
+            if ((nestedShapeExprRef = valueChoices.find(ref => {
+              if (typeof ref !== "string") throw Error(`expected only references to datatypes in ${JSON.stringify(eachOfTE)}`);
+              if (!(ref.startsWith(NS_fhir))) throw Error(`reference ${ref} doesn't expected to start with ${NS_fhir}`);
+              const typeLabel = ref.substr(NS_fhir.length);
+              const curriedPredicate = eachOfTE.predicate + typeLabel.substr(0, 1).toUpperCase() + typeLabel.substr(1);
+              return curriedPredicate.endsWith('.' + key) || curriedPredicate.endsWith('/' + key);
+            }))) {
+              tc = eachOfTE;
+              injectTypeArc = true;
+            }
+          }
+        } else if (eachOfTE.type === "OneOf") {
+          tc = eachOfTE.expressions.find(oneOfTE => oneOfTE.predicate.endsWith('.' + key) || oneOfTE.predicate.endsWith('/' + key));
+        } else throw Error("HERE");
+    }
+    return {tc, nestedShapeExprRef, injectTypeArc};
   }
 
   processExtensions(fhirObj) {

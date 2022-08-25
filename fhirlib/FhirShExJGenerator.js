@@ -42,7 +42,7 @@ class FhirShExJGenerator extends ModelVisitor {
   static BindingMaps = [
     {fhirStem: Prefixes.fhirvs, shexStem: ''},
     {fhirStem: 'http://terminology.hl7.org/ValueSet/', shexStem: 'hl7-'},
-    {fhirStem: 'http://loinc.org/vs/', shexStem: 'loinc-'},
+    // {fhirStem: 'http://loinc.org/vs/', shexStem: 'loinc-'},
   ];
 
   // prototype for fhir:index list emulations.
@@ -128,25 +128,27 @@ class FhirShExJGenerator extends ModelVisitor {
       this.schema.shapes,
       Object.entries(this.lists)
         .map(([id, valueExpr]) => ({
-          type: 'Shape',
+          type: 'ShapeDecl',
           id,
-          expression:
-          { type: "EachOf",
-            expressions: [
-              { type: "TripleConstraint",
-                predicate: P.rdf + "first",
-                valueExpr
-              },
-              { type: "TripleConstraint",
-                predicate: P.rdf + "rest",
-                valueExpr: {
-                  type: "ShapeOr",
-                  shapeExprs: [
-                    { "type": "NodeConstraint", "values": [ P.rdf + "nil" ] },
-                    id
-                  ] } }
-            ] }
-        } ) )
+          shapeExpr: {
+            type: 'Shape',
+            expression:
+            { type: "EachOf",
+              expressions: [
+                { type: "TripleConstraint",
+                  predicate: P.rdf + "first",
+                  valueExpr
+                },
+                { type: "TripleConstraint",
+                  predicate: P.rdf + "rest",
+                  valueExpr: {
+                    type: "ShapeOr",
+                    shapeExprs: [
+                      { "type": "NodeConstraint", "values": [ P.rdf + "nil" ] },
+                      id
+                    ] } }
+              ] }
+          } } ) )
     );
 
     // < 4.5 FHIR resources-types didn't have a 'Base'
@@ -154,7 +156,6 @@ class FhirShExJGenerator extends ModelVisitor {
     if (!this.schema.shapes.find(se => se.id === P.fhirshex + 'Base'))
       this.schema.shapes.push({type: 'Shape', id: P.fhirshex + 'Base'});
 
-    this.replaceAbstractClasses(this.config);
     return this.schema;
   }
 
@@ -167,14 +168,15 @@ class FhirShExJGenerator extends ModelVisitor {
   async genShape (resourceDef, root, generatorConfig = this.config) {
     const isParent = FhirShExJGenerator.PARENT_TYPES.indexOf(resourceDef.id) === -1;
     const label = Prefixes.fhirshex + resourceDef.id;
+    const parents = [];
     if ('baseDefinition' in resourceDef) {
       if (!resourceDef.baseDefinition.startsWith(GEN_SHEXJ_STEM))
         throw Error(`Unknown URL stem in ${resourceDef.baseDefinition}, expected ${GEN_SHEXJ_STEM}`);
       const base = resourceDef.baseDefinition.substr(GEN_SHEXJ_STEM.length);
-      this.extensions.add(base, resourceDef.id);
+      parents.push(Prefixes.fhirshex + base);
     }
     this.added.push(label);
-    this.pushShape(label, isParent);
+    this.pushShape(label, isParent, parents);
     if (resourceDef.kind === 'resource') {
       if (isParent) {
         this.add(this.makeTripleConstraint(
@@ -225,10 +227,11 @@ class FhirShExJGenerator extends ModelVisitor {
     return this;
   }
 
-  enter (propertyMapping) {
+  async enter (propertyMapping, config) {
     const shapeName = Prefixes.fhirshex + propertyMapping.element.id;
-    let typeName = propertyMapping.element.id;
+    const typeName = propertyMapping.element.id;
     let valueExpr = Prefixes.fhirshex + typeName;
+    const parents = propertyMapping.element.type.map(t => Prefixes.fhirshex + t.code);
     if (this.config.axes.c && propertyMapping.element.max !== "1") {
       valueExpr = Prefixes.fhirshex + this.listName(typeName);
       this.lists[valueExpr] = Prefixes.fhirshex + typeName;
@@ -238,10 +241,10 @@ class FhirShExJGenerator extends ModelVisitor {
       valueExpr,
       this.makeCard(propertyMapping.element.min, propertyMapping.element.max)
     ));
-    this.pushShape(shapeName, true); // TODO: would break if nested *inside* a DomainResource.
+    this.pushShape(shapeName, true, parents); // TODO: would break if nested *inside* a DomainResource.
   }
 
-  element (propertyMappings) {
+  async element (propertyMappings, config) {
     const valueExprs = propertyMappings.reduce((acc, propertyMapping) => {
       // Early return if this specializes another.
       if (propertyMapping.specializes.length > 0) {
@@ -269,40 +272,42 @@ class FhirShExJGenerator extends ModelVisitor {
           const bindingMap = FhirShExJGenerator.BindingMaps.find(
             bindingMap => propertyMapping.binding.valueSet.startsWith(bindingMap.fhirStem)
           );
-          if (!bindingMap)
-            throw Error(`Don't know anything about binding ${propertyMapping.binding}`);
-          const valueSetSpec = bindingMap.shexStem +
-                propertyMapping.binding.valueSet.substr(bindingMap.fhirStem.length);
-          const [valueSet, version] = valueSetSpec.split(/\|/);
-          typeName = typeName + '_AND_' + valueSet;
-          const annotations = this.config.addValueSetVersionAnnotation && version
-                ? {
-                  "annotations": [{
-                    "type": "Annotation",
-                    "predicate": "http://hl7.org/fhir/version",
-                    "object": {"value": version}
-                  }]
-                }
-                : {};
-          if (this.config.axes.h) {
-            valueExpr = {
-              type: "ShapeAnd",
-              shapeExprs: [valueExpr, Prefixes.fhirvs + valueSet]
-              // TODO: does not pass annotation into triple constraint
-            };
+          if (!bindingMap) {
+            console.warn(`${propertyMapping.element.id} valueSet "${propertyMapping.binding.valueSet}" not an internal value set [${FhirShExJGenerator.BindingMaps.map(b => `"${b.fhirStem}"`).join(", ")}]:\n${JSON.stringify(propertyMapping.binding, null, 2).replace(/^/gm, "  ")}`);
           } else {
-            const expression = Object.assign(
-              {
-                type: "TripleConstraint",
-                predicate: Prefixes.fhir + 'v',
-                valueExpr: Prefixes.fhirvs + valueSet
-              },
-              annotations
-            );
-            valueExpr = {
-              type: "ShapeAnd",
-              shapeExprs: [valueExpr, {type: "Shape", expression}]
-            };
+            const valueSetSpec = bindingMap.shexStem +
+                  propertyMapping.binding.valueSet.substr(bindingMap.fhirStem.length);
+            const [valueSet, version] = valueSetSpec.split(/\|/);
+            typeName = typeName + '_AND_' + valueSet;
+            const annotations = this.config.addValueSetVersionAnnotation && version
+                  ? {
+                    "annotations": [{
+                      "type": "Annotation",
+                      "predicate": "http://hl7.org/fhir/version",
+                      "object": {"value": version}
+                    }]
+                  }
+                  : {};
+            if (this.config.axes.h) {
+              valueExpr = {
+                type: "ShapeAnd",
+                shapeExprs: [valueExpr, Prefixes.fhirvs + valueSet]
+                // TODO: does not pass annotation into triple constraint
+              };
+            } else {
+              const expression = Object.assign(
+                {
+                  type: "TripleConstraint",
+                  predicate: Prefixes.fhir + 'v',
+                  valueExpr: Prefixes.fhirvs + valueSet
+                },
+                annotations
+              );
+              valueExpr = {
+                type: "ShapeAnd",
+                shapeExprs: [valueExpr, {type: "Shape", expression}]
+              };
+            }
           }
         }
         if (this.config.axes.c && propertyMapping.element.max !== "1") {
@@ -352,31 +357,42 @@ class FhirShExJGenerator extends ModelVisitor {
     }
   }
 
-  exit (propertyMapping) {
+  async exit (propertyMapping, config) {
     this.popShape(propertyMapping.type);
   }
 
-  pushShape (name, isClosed) {
-    const newShape = Object.assign({
-      type: "Shape",
-      id: name,
-    }, isClosed
-    ? {  closed: true }
-    : {}
+  pushShape (name, isClosed, parents) {
+    const newShape = Object.assign(
+      {
+        type: "Shape",
+      },
+      parents.length
+        ? { extends: parents }
+        : {},
+      isClosed
+        ? {  closed: true }
+        : {}
     );
+    const newDecl = {
+      type: "ShapeDecl",
+      id: name,
+      shapeExpr: newShape,
+    };
     this.teListStack.unshift([]);
-    this.schema.shapes.push(newShape);
-    this.shapeStack.push(newShape);
+    this.schema.shapes.push(newDecl);
+    this.shapeStack.push(newDecl);
   }
 
   popShape (name) {
     const teList = this.teListStack.shift();
-    if (teList.length === 0 && name !== "Base")
+    const newDecl = this.shapeStack.pop();
+    // Base, Age, Count, DataType, Distance, Duration, PrimitiveType, MoneyQuantity, SimpleQuantity
+    if (teList.length === 0 && name !== "Base" && !("extends" in newDecl.shapeExpr))
       throw new Error(`Unexpected 0-length TE list when serializing ${name}?`);
     if (!this.config.axes.c && FhirShExJGenerator.PARENT_TYPES.indexOf(name) === -1) {
       teList.push(FhirShExJGenerator.INDEX);
     }
-    this.shapeStack.pop().expression = teList.length === 1
+    newDecl.shapeExpr.expression = teList.length === 1
       ? teList[0]
       : {
         type: "EachOf",
@@ -442,12 +458,16 @@ class FhirShExJGenerator extends ModelVisitor {
     const values = await this.parseCompose(resourceDef.compose || {include:[]});
     let nodeConstraint = {
       type: "NodeConstraint",
-      id: label
     };
     if (values.length > 0) {
       nodeConstraint.values = values;
     }
-    this.schema.shapes.push(nodeConstraint);
+    const shapeDecl = {
+      type: "ShapeDecl",
+      id: label,
+      shapeExpr: nodeConstraint,
+    }
+    this.schema.shapes.push(shapeDecl);
     this.added.push(resourceDef.id);
     return this;
   }
@@ -503,63 +523,6 @@ class FhirShExJGenerator extends ModelVisitor {
   }
 
   /**
-   *
-   * @param label shape label for generated NodeConstraint.
-   * @param config control predicates and lists in RDF model.
-   * @returns {FhirShExJGenerator}
-   */
-  replaceAbstractClasses (generatorConfig = this.config) {
-    const extended = ['Resource']
-          .concat(this.extensions.children['Resource'].filter(
-            p => this.extensions.children[p].length > 0
-          ));
-
-    extended.forEach(p => {
-      const id = P.fhirshex + p; // the name of this shape
-
-      // Replace id in schema.shapes with a ShapeOr of its (unextended) children.
-      const replaceMe = this.schema.shapes.find(se => se.id === id);
-      if (!replaceMe)
-        throw Error(`did not find ${id} in \n  ${this.schema.shapes.map(se => se.id).join('\n  ')}`);
-
-      const children = (this.extensions.children[p] || []) // all children on e
-            .filter(c => this.extensions.children[c].length === 0); // that weren't also extended
-
-      const shapeExprs = children.map(c => ({
-          type: "ShapeOr",
-          shapeExprs: [
-            { type: "ShapeNot",
-              shapeExpr: {
-                type: "Shape",
-                expression: {
-                  type: "EachOf",
-                  expressions: [
-                    { type: "TripleConstraint",
-                      predicate: P.fhirshex + "nodeRole",
-                      valueExpr: {
-                        type: "NodeConstraint",
-                        values: [ P.fhirshex + "treeRoot" ] }
-                    },
-                    { type: "TripleConstraint",
-                      predicate: P.rdf + "type",
-                      valueExpr: {
-                        type: "NodeConstraint",
-                        values: [ P.fhirshex + c ] }
-                  } ]
-            } } },
-            P.fhirshex + c
-          ]
-      }) );
-
-      // Replace replaceMe in schema.shapes.
-      const replaceIdx = this.schema.shapes.indexOf(replaceMe);
-      this.schema.shapes[replaceIdx] = { id, type: "ShapeOr", shapeExprs };
-    } )
-    this.schema["@context"] = "http://www.w3.org/ns/shex.jsonld";
-    return this;
-  }
-
-  /**
    * Create a copy of `schema` with ShapeExpressions nested in place of their references.
    * @param schema an input ShapeExpressions schema
    * @returns {schema} nested copy of schema
@@ -584,23 +547,23 @@ class FhirShExJGenerator extends ModelVisitor {
     const seRenamer = ShExUtil.Visitor()
 
     // We want to nest this ShapeExpression if:
-    function nestTest (shapeExprLabel) {
-      return refCounts[shapeExprLabel] === 1 &&                // it has a ref count == 1, AND
-          shapeExprLabel.startsWith(P.fhirshex) &&             // it is a FHIR shape (probably unnecessary in the FHIR schema), AND
-          shapeExprLabel.substr(P.fhirshex.length).indexOf('.') !== -1 // it has a '.' in the name (our naming convention for nested shape).
+    function nestTest (shapeDeclLabel) {
+      return refCounts[shapeDeclLabel] === 1 &&                // it has a ref count == 1, AND
+          shapeDeclLabel.startsWith(P.fhirshex) &&             // it is a FHIR shape (probably unnecessary in the FHIR schema), AND
+          shapeDeclLabel.substr(P.fhirshex.length).indexOf('.') !== -1 // it has a '.' in the name (our naming convention for nested shape).
     }
 
     seRenamer.visitShapeRef = function (reference) {
       return nestTest(reference)                               // If this reference is a candidate for nesting,
-          ? seRenamer.visitShapeExpr(index.shapeExprs[reference]) // add (a copy of) it from the initial schema,
+          ? seRenamer.visitShapeExpr(index.shapeExprs[reference].shapeExpr) // add (a copy of) it from the initial schema,
           : reference                                          // otherwise keep a reference to it.
     }
 
     seRenamer.visitShapes = function (shapes) {
       return shapes.reduce(
-          (acc, shapeExpr) => nestTest(shapeExpr.id)             // If this id is a candidate for nesting,
+          (acc, shapeDecl) => nestTest(shapeDecl.id)             // If this id is a candidate for nesting,
               ? acc                                                // don't add it to the outer shapes,
-              : acc.concat([seRenamer.visitShapeExpr(shapeExpr)]), // otherwise add (a copy of) it.
+              : acc.concat([seRenamer.visitShapeDecl(shapeDecl)]), // otherwise add (a copy of) it.
           []
       )
     }

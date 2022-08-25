@@ -10,165 +10,165 @@ PREFIX fhirvs: <http://hl7.org/fhir/ValueSet/>
 <http://hl7.org/fhir/CodeSystem/example> a fhir:CodeSystem;
     fhir:nodeRole fhir:treeRoot;
     fhir:Resource.id [
-        fhir:value "example"
+        fhir:v "example"
     ];
     fhir:Resource.meta [
         fhir:Meta.profile [
-            fhir:value "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"^^xsd:anyURI;
+            fhir:v "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"^^xsd:anyURI;
             fhir:index 0
         ]
     ];
     fhir:DomainResource.text [
         fhir:Narrative.status [
-            fhir:value "generated", "generated"
+            fhir:v "generated", "generated"
         ];
         fhir:Narrative.div "<div>…</div>"
     ];
     fhir:CodeSystem.url [
-        fhir:value "http://hl7.org/fhir/CodeSystem/example"^^xsd:anyURI
+        fhir:v "http://hl7.org/fhir/CodeSystem/example"^^xsd:anyURI
     ];
     fhir:CodeSystem.identifier [
         fhir:Identifier.system [
-            fhir:value "http://acme.com/identifiers/codesystems"^^xsd:anyURI
+            fhir:v "http://acme.com/identifiers/codesystems"^^xsd:anyURI
         ];
         fhir:Identifier.value [
-            fhir:value "internal-cholesterol-inl"
+            fhir:v "internal-cholesterol-inl"
         ];
         fhir:index 0
     ];
     fhir:CodeSystem.version [
-        fhir:value "20160128"
+        fhir:v "20160128"
     ];
     fhir:CodeSystem.name [
-        fhir:value "ACMECholCodesBlood"
+        fhir:v "ACMECholCodesBlood"
     ];
     fhir:CodeSystem.title [
-        fhir:value "ACME Codes for Cholesterol in Serum/Plasma"
+        fhir:v "ACME Codes for Cholesterol in Serum/Plasma"
     ];
     fhir:CodeSystem.status [
-        fhir:value "draft", "draft"
+        fhir:v "draft", "draft"
     ];
     fhir:CodeSystem.experimental [
         fhir:value true
     ];
     fhir:CodeSystem.date [
-        fhir:value "2016-01-28"^^xsd:date
+        fhir:v "2016-01-28"^^xsd:date
     ];
     fhir:CodeSystem.publisher [
-        fhir:value "Acme Co"
+        fhir:v "Acme Co"
     ];
     fhir:CodeSystem.contact [
         fhir:ContactDetail.name [
-            fhir:value "FHIR project team"
+            fhir:v "FHIR project team"
         ];
         fhir:ContactDetail.telecom [
             fhir:ContactPoint.system [
-                fhir:value "url", "url"
+                fhir:v "url", "url"
             ];
             fhir:ContactPoint.value [
-                fhir:value "http://hl7.org/fhir"
+                fhir:v "http://hl7.org/fhir"
             ];
             fhir:index 0
         ];
         fhir:index 0
     ];
     fhir:CodeSystem.description [
-        fhir:value "This is an example code system that includes all the ACME codes for serum/plasma cholesterol from v2.36."
+        fhir:v "This is an example code system that includes all the ACME codes for serum/plasma cholesterol from v2.36."
     ];
     fhir:CodeSystem.caseSensitive [
         fhir:value true
     ];
     fhir:CodeSystem.content [
-        fhir:value "complete", "complete"
+        fhir:v "complete", "complete"
     ];
     fhir:CodeSystem.filter [
         fhir:CodeSystem.filter.code [
-            fhir:value "acme-plasma"
+            fhir:v "acme-plasma"
         ];
         fhir:CodeSystem.filter.description [
-            fhir:value "An internal filter used to select codes that are only used with plasma"
+            fhir:v "An internal filter used to select codes that are only used with plasma"
         ];
         fhir:CodeSystem.filter.operator [
-            fhir:value "=";
+            fhir:v "=";
             fhir:index 0;
-            fhir:value "="
+            fhir:v "="
         ];
         fhir:CodeSystem.filter.value [
-            fhir:value "the value of this filter is either 'true' or 'false'"
+            fhir:v "the value of this filter is either 'true' or 'false'"
         ];
         fhir:index 0
     ];
     fhir:CodeSystem.concept [
         fhir:CodeSystem.concept.code [
-            fhir:value "chol-mmol"
+            fhir:v "chol-mmol"
         ];
         fhir:CodeSystem.concept.display [
-            fhir:value "SChol (mmol/L)"
+            fhir:v "SChol (mmol/L)"
         ];
         fhir:CodeSystem.concept.definition [
-            fhir:value "Serum Cholesterol, in mmol/L"
+            fhir:v "Serum Cholesterol, in mmol/L"
         ];
         fhir:CodeSystem.concept.designation [
             fhir:CodeSystem.concept.designation.use [
                 fhir:Coding.system [
-                    fhir:value "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
+                    fhir:v "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
                 ];
                 fhir:Coding.code [
-                    fhir:value "internal-label"
+                    fhir:v "internal-label"
                 ]
             ];
             fhir:CodeSystem.concept.designation.value [
-                fhir:value "From ACME POC Testing"
+                fhir:v "From ACME POC Testing"
             ];
             fhir:index 0
         ];
         fhir:index 0
     ], [
         fhir:CodeSystem.concept.code [
-            fhir:value "chol-mass"
+            fhir:v "chol-mass"
         ];
         fhir:CodeSystem.concept.display [
-            fhir:value "SChol (mg/L)"
+            fhir:v "SChol (mg/L)"
         ];
         fhir:CodeSystem.concept.definition [
-            fhir:value "Serum Cholesterol, in mg/L"
+            fhir:v "Serum Cholesterol, in mg/L"
         ];
         fhir:CodeSystem.concept.designation [
             fhir:CodeSystem.concept.designation.use [
                 fhir:Coding.system [
-                    fhir:value "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
+                    fhir:v "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
                 ];
                 fhir:Coding.code [
-                    fhir:value "internal-label"
+                    fhir:v "internal-label"
                 ]
             ];
             fhir:CodeSystem.concept.designation.value [
-                fhir:value "From Paragon Labs"
+                fhir:v "From Paragon Labs"
             ];
             fhir:index 0
         ];
         fhir:index 1
     ], [
         fhir:CodeSystem.concept.code [
-            fhir:value "chol"
+            fhir:v "chol"
         ];
         fhir:CodeSystem.concept.display [
-            fhir:value "SChol"
+            fhir:v "SChol"
         ];
         fhir:CodeSystem.concept.definition [
-            fhir:value "Serum Cholesterol"
+            fhir:v "Serum Cholesterol"
         ];
         fhir:CodeSystem.concept.designation [
             fhir:CodeSystem.concept.designation.use [
                 fhir:Coding.system [
-                    fhir:value "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
+                    fhir:v "http://acme.com/config/fhir/codesystems/internal"^^xsd:anyURI
                 ];
                 fhir:Coding.code [
-                    fhir:value "internal-label"
+                    fhir:v "internal-label"
                 ]
             ];
             fhir:CodeSystem.concept.designation.value [
-                fhir:value "Obdurate Labs uses this with both kinds of units..."
+                fhir:v "Obdurate Labs uses this with both kinds of units..."
             ];
             fhir:index 0
         ];

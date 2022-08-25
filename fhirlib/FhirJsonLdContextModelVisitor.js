@@ -4,6 +4,8 @@ const { StructureError } = require('./errors');
 
 class FhirJsonLdContextModelVisitor extends ModelVisitor {
 
+  static STRUCTURE_DEFN_ROOT = "http://hl7.org/fhir/StructureDefinition/"; // @@ share with FhirRdfModelGenerator
+
   static HEADER = {
     "@version": 1.1,
     "@vocab": "http://example.com/UNKNOWN#",
@@ -48,6 +50,7 @@ class FhirJsonLdContextModelVisitor extends ModelVisitor {
           FhirJsonLdContextModelVisitor.TYPE_AND_INDEX
         )
       }];
+      let baseContext = {};
       if (resourceDef.id !== 'root') { // grumble
         const modelGenerator = new FhirRdfModelGenerator(this.definitionLoader, this.opts);
         if (resourceDef === null) {
@@ -57,27 +60,54 @@ class FhirJsonLdContextModelVisitor extends ModelVisitor {
           else
             throw e;
         }
+        if ("baseDefinition" in resourceDef) {
+          if (!(resourceDef.baseDefinition.startsWith(FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT)))
+            throw Error(`Don't know where to look for base structure ${resourceDef.baseDefinition}`, resourceDef);
+
+          const recursionTarget = resourceDef.baseDefinition.substr(FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT.length);
+          const base = await this.getBaseContext(recursionTarget, config);
+          baseContext = base['@context'];
+        }
         await modelGenerator.visitResource(resourceDef, this, config);
+        Object.assign(this.ret[0]['@context'], baseContext); // @@ neeeded? or does genJsonldContext leave ret[0] populated...
       }
       this.cache.set(resourceDef.id, this.ret[0]);
     }
     return this.cache.get(resourceDef.id);
   }
 
-  enter (propertyMapping) {
+  async getBaseContext(recursionTarget, config) {
+    const parentDef = await this.definitionLoader.getStructureDefinitionByName(recursionTarget);
+    // hide the stack, process parent, restore the stack
+    const was = this.ret;
+    const base = await this.genJsonldContext(parentDef, config);
+    this.ret = was;
+    return base;
+  }
+
+  async enter (propertyMapping, config) {
+    if (!("type" in propertyMapping))
+      throw Error(`Expected this to have a type:\n${JSON.stringify(propertyMapping, null, 2)}`)
+    if (!(propertyMapping.type.startsWith(FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT)))
+      throw Error(`Don't know where to look for base structure ${propertyMapping.type}`, propertyMapping);
+
+    const recursionTarget = propertyMapping.type.substr(FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT.length);
+    const base = await this.getBaseContext(recursionTarget, config);
     const nestedElt = {
       '@id': FhirJsonLdContextModelVisitor.shorten(propertyMapping.predicate),
-      '@context': Object.assign({}, FhirJsonLdContextModelVisitor.TYPE_AND_INDEX),
+      '@context': Object.assign({}, base['@context']),
     }
     this.ret[0]["@context"][propertyMapping.property] = nestedElt;
     this.ret.unshift(nestedElt);
   }
 
-  element (propertyMappings) {
+  element (propertyMappings, config) {
     propertyMappings.forEach(propertyMapping => {
       if (propertyMapping.isScalar) {
-        this.ret[0]["@context"][propertyMapping.property] = {
-          '@id': FhirJsonLdContextModelVisitor.shorten(propertyMapping.predicate),
+        const id = FhirJsonLdContextModelVisitor.shorten(propertyMapping.predicate);
+        // In FHIR Core, this will be either fhir:v or fhir:div
+        this.ret[0]["@context"][id === 'fhir:v' ? 'v' : propertyMapping.property] = {
+          '@id': id,
           '@type': propertyMapping.type.datatype,
         };
       } else {
@@ -92,7 +122,7 @@ class FhirJsonLdContextModelVisitor extends ModelVisitor {
     });
   }
 
-  exit (propertyMapping) {
+  exit (propertyMapping, config) {
     this.ret.shift();
   }
 

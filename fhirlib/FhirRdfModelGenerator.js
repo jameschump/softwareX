@@ -26,9 +26,9 @@ class ModelVisitor {
   constructor(definitionLoader) {
     this.definitionLoader = definitionLoader;
   }
-  enter (propertyMapping) { throw new Error(`ModelVistor.enter(${propertyMapping}) must be overloaded`); }
-  element (propertyMapping) { throw new Error(`ModelVistor.complex(${propertyMapping}) must be overloaded`); }
-  exit (propertyMapping) { throw new Error(`ModelVistor.exit(${propertyMapping}) must be overloaded`); }
+  async enter (propertyMapping, config) { throw new Error(`ModelVistor.enter(${propertyMapping}) must be overloaded`); }
+  async element (propertyMapping, config) { throw new Error(`ModelVistor.complex(${propertyMapping}) must be overloaded`); }
+  async exit (propertyMapping, config) { throw new Error(`ModelVistor.exit(${propertyMapping}) must be overloaded`); }
 }
 
 class FhirResourceDefinitionError extends StructureError {
@@ -156,7 +156,7 @@ class FhirRdfModelGenerator {
     }
 
     let baseElts = [];
-    if ("baseDefinition" in resourceDef) {
+    if (false && "baseDefinition" in resourceDef) {
       const recursionTarget = resourceDef.baseDefinition.substr(FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT.length);
       if (recursionTarget !== 'base')
         baseElts = await this.visitElementByName(recursionTarget, visitor, config); // Get content model from base type
@@ -196,7 +196,7 @@ class FhirRdfModelGenerator {
       for (let i = this.stack.length - 1; i >= 0; --i) {
         if (this.stack[i].property !== path[i]) {
           // `i` has the index of the first Nesting not consistent with `path`.
-          this.stack.slice(i).reverse().forEach(n => visitor.exit(n)); // call exit on each extra element in the stack
+          for (let n of this.stack.slice(i).reverse()) {await visitor.exit(n, config);} // call exit on each extra element in the stack
           this.stack = this.stack.slice(0, i); // trim down the stack
           break;
         }
@@ -230,7 +230,7 @@ class FhirRdfModelGenerator {
                 // Construct a Nesting for this property and visitor.enter it.
                 const n = new PropertyMapping(false, elt, curriedName, predicate, FhirRdfModelGenerator.STRUCTURE_DEFN_ROOT + typeCode, null, []);
                 this.stack.push(n);
-                visitor.enter(n);
+                await visitor.enter(n, config);
 
                 // if this element extends another, process the base.
                 // This is probably always true BackboneElements extend DomainResource and Elements extend BackboneType or Datatype.
@@ -288,7 +288,7 @@ class FhirRdfModelGenerator {
             }, Promise.resolve([]));
 
       if (disjointPMaps.length) // will be 0 if elt.id was in NestedStructureTypeCodes, as verified by (elt.type.length > 1) assertions
-        visitor.element(disjointPMaps);
+        await visitor.element(disjointPMaps, config);
       return visitedElts.concat([disjointPMaps]);
     }, Promise.resolve([]));
   }
