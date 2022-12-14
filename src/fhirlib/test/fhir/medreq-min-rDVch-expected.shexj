@@ -50,37 +50,37 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.url",
+            "predicate": "http://hl7.org/fhir/url",
             "valueExpr": "http://hl7.org/fhir/shape/uri",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.identifier",
+            "predicate": "http://hl7.org/fhir/identifier",
             "valueExpr": "http://hl7.org/fhir/shape/Identifier",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.version",
+            "predicate": "http://hl7.org/fhir/version",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.name",
+            "predicate": "http://hl7.org/fhir/name",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.title",
+            "predicate": "http://hl7.org/fhir/title",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.status",
+            "predicate": "http://hl7.org/fhir/status",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -98,31 +98,31 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.experimental",
+            "predicate": "http://hl7.org/fhir/experimental",
             "valueExpr": "http://hl7.org/fhir/shape/boolean",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.date",
+            "predicate": "http://hl7.org/fhir/date",
             "valueExpr": "http://hl7.org/fhir/shape/dateTime",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.publisher",
+            "predicate": "http://hl7.org/fhir/publisher",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.contact",
+            "predicate": "http://hl7.org/fhir/contact",
             "valueExpr": "http://hl7.org/fhir/shape/ContactDetail",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CanonicalResource.description",
+            "predicate": "http://hl7.org/fhir/description",
             "valueExpr": "http://hl7.org/fhir/shape/markdown",
             "min": 0, "max": 1
           },
@@ -157,37 +157,37 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.url",
+            "predicate": "http://hl7.org/fhir/url",
             "valueExpr": "http://hl7.org/fhir/shape/uri",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.identifier",
+            "predicate": "http://hl7.org/fhir/identifier",
             "valueExpr": "http://hl7.org/fhir/shape/Identifier",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.version",
+            "predicate": "http://hl7.org/fhir/version",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.name",
+            "predicate": "http://hl7.org/fhir/name",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.title",
+            "predicate": "http://hl7.org/fhir/title",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.status",
+            "predicate": "http://hl7.org/fhir/status",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -205,55 +205,55 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.experimental",
+            "predicate": "http://hl7.org/fhir/experimental",
             "valueExpr": "http://hl7.org/fhir/shape/boolean",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.date",
+            "predicate": "http://hl7.org/fhir/date",
             "valueExpr": "http://hl7.org/fhir/shape/dateTime",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.publisher",
+            "predicate": "http://hl7.org/fhir/publisher",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.contact",
+            "predicate": "http://hl7.org/fhir/contact",
             "valueExpr": "http://hl7.org/fhir/shape/ContactDetail",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.description",
+            "predicate": "http://hl7.org/fhir/description",
             "valueExpr": "http://hl7.org/fhir/shape/markdown",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.caseSensitive",
+            "predicate": "http://hl7.org/fhir/caseSensitive",
             "valueExpr": "http://hl7.org/fhir/shape/boolean",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.valueSet",
+            "predicate": "http://hl7.org/fhir/valueSet",
             "valueExpr": "http://hl7.org/fhir/shape/canonical",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.compositional",
+            "predicate": "http://hl7.org/fhir/compositional",
             "valueExpr": "http://hl7.org/fhir/shape/boolean",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.content",
+            "predicate": "http://hl7.org/fhir/content",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -271,25 +271,25 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.supplements",
+            "predicate": "http://hl7.org/fhir/supplements",
             "valueExpr": "http://hl7.org/fhir/shape/canonical",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.filter",
+            "predicate": "http://hl7.org/fhir/filter",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.filter",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.property",
+            "predicate": "http://hl7.org/fhir/property",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.property",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept",
+            "predicate": "http://hl7.org/fhir/concept",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.concept",
             "min": 0, "max": -1
           },
@@ -313,30 +313,30 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.filter.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/code"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.filter.description",
+            "predicate": "http://hl7.org/fhir/description",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.filter.operator",
+            "predicate": "http://hl7.org/fhir/operator",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -355,7 +355,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.filter.value",
+            "predicate": "http://hl7.org/fhir/value",
             "valueExpr": "http://hl7.org/fhir/shape/string"
           },
           {
@@ -378,36 +378,36 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.property.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/code"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.property.uri",
+            "predicate": "http://hl7.org/fhir/uri",
             "valueExpr": "http://hl7.org/fhir/shape/uri",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.property.description",
+            "predicate": "http://hl7.org/fhir/description",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.property.type",
+            "predicate": "http://hl7.org/fhir/type",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -446,48 +446,48 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/code"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.display",
+            "predicate": "http://hl7.org/fhir/display",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.definition",
+            "predicate": "http://hl7.org/fhir/definition",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.designation",
+            "predicate": "http://hl7.org/fhir/designation",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.concept.designation",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.property",
+            "predicate": "http://hl7.org/fhir/property",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.concept.property",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.concept",
+            "predicate": "http://hl7.org/fhir/concept",
             "valueExpr": "http://hl7.org/fhir/shape/CodeSystem.concept",
             "min": 0, "max": -1
           },
@@ -511,33 +511,33 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.designation.language",
+            "predicate": "http://hl7.org/fhir/language",
             "valueExpr": "http://hl7.org/fhir/shape/code",
             "min": 0,
             "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.designation.use",
+            "predicate": "http://hl7.org/fhir/use",
             "valueExpr": "http://hl7.org/fhir/shape/Coding",
             "min": 0,
             "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.designation.value",
+            "predicate": "http://hl7.org/fhir/value",
             "valueExpr": "http://hl7.org/fhir/shape/string"
           },
           {
@@ -564,19 +564,19 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/code"
           },
           {
@@ -584,37 +584,37 @@
             "expressions": [
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueCode",
+                "predicate": "http://hl7.org/fhir/valueCode",
                 "valueExpr": "http://hl7.org/fhir/shape/code"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueCoding",
+                "predicate": "http://hl7.org/fhir/valueCoding",
                 "valueExpr": "http://hl7.org/fhir/shape/Coding"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueString",
+                "predicate": "http://hl7.org/fhir/valueString",
                 "valueExpr": "http://hl7.org/fhir/shape/string"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueInteger",
+                "predicate": "http://hl7.org/fhir/valueInteger",
                 "valueExpr": "http://hl7.org/fhir/shape/integer"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueBoolean",
+                "predicate": "http://hl7.org/fhir/valueBoolean",
                 "valueExpr": "http://hl7.org/fhir/shape/boolean"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueDateTime",
+                "predicate": "http://hl7.org/fhir/valueDateTime",
                 "valueExpr": "http://hl7.org/fhir/shape/dateTime"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/CodeSystem.concept.property.valueDecimal",
+                "predicate": "http://hl7.org/fhir/valueDecimal",
                 "valueExpr": "http://hl7.org/fhir/shape/decimal"
               }
             ]
@@ -647,7 +647,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Resource.id",
+            "predicate": "http://hl7.org/fhir/id",
             "valueExpr": "http://hl7.org/fhir/shape/id",
             "min": 0, "max": 1
           }
@@ -677,13 +677,13 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.identifier",
+            "predicate": "http://hl7.org/fhir/identifier",
             "valueExpr": "http://hl7.org/fhir/shape/Identifier",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.status",
+            "predicate": "http://hl7.org/fhir/status",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -701,17 +701,17 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.medication",
+            "predicate": "http://hl7.org/fhir/medication",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableReference"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.subject",
+            "predicate": "http://hl7.org/fhir/subject",
             "valueExpr": "http://hl7.org/fhir/shape/Reference"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.dose",
+            "predicate": "http://hl7.org/fhir/dose",
             "valueExpr": "http://hl7.org/fhir/shape/MedicationRequest.dose",
             "min": 0, "max": 1
           },
@@ -735,19 +735,19 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/MedicationRequest.dose.dosageInstruction",
+            "predicate": "http://hl7.org/fhir/dosageInstruction",
             "valueExpr": "http://hl7.org/fhir/shape/Dosage",
             "min": 0, "max": -1
           },
@@ -782,7 +782,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.identifier",
+            "predicate": "http://hl7.org/fhir/identifier",
             "valueExpr": "http://hl7.org/fhir/shape/Identifier",
             "min": 0, "max": -1
           },
@@ -791,12 +791,12 @@
             "expressions": [
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.instantiatesCanonical",
+                "predicate": "http://hl7.org/fhir/instantiatesCanonical",
                 "valueExpr": "http://hl7.org/fhir/shape/canonical"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.instantiatesReference",
+                "predicate": "http://hl7.org/fhir/instantiatesReference",
                 "valueExpr": "http://hl7.org/fhir/shape/Reference"
               }
             ],
@@ -804,7 +804,7 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.status",
+            "predicate": "http://hl7.org/fhir/status",
             "valueExpr": {
               "type": "ShapeAnd",
               "shapeExprs": [
@@ -822,12 +822,12 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept"
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.subject",
+            "predicate": "http://hl7.org/fhir/subject",
             "valueExpr": "http://hl7.org/fhir/shape/Reference",
             "min": 0, "max": 1
           },
@@ -836,22 +836,22 @@
             "expressions": [
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.effectiveDateTime",
+                "predicate": "http://hl7.org/fhir/effectiveDateTime",
                 "valueExpr": "http://hl7.org/fhir/shape/dateTime"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.effectivePeriod",
+                "predicate": "http://hl7.org/fhir/effectivePeriod",
                 "valueExpr": "http://hl7.org/fhir/shape/Period"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.effectiveTiming",
+                "predicate": "http://hl7.org/fhir/effectiveTiming",
                 "valueExpr": "http://hl7.org/fhir/shape/Timing"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.effectiveInstant",
+                "predicate": "http://hl7.org/fhir/effectiveInstant",
                 "valueExpr": "http://hl7.org/fhir/shape/instant"
               }
             ],
@@ -859,13 +859,13 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.issued",
+            "predicate": "http://hl7.org/fhir/issued",
             "valueExpr": "http://hl7.org/fhir/shape/instant",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.performer",
+            "predicate": "http://hl7.org/fhir/performer",
             "valueExpr": "http://hl7.org/fhir/shape/Reference",
             "min": 0, "max": -1
           },
@@ -874,42 +874,42 @@
             "expressions": [
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueCodeableConcept",
+                "predicate": "http://hl7.org/fhir/valueCodeableConcept",
                 "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueString",
+                "predicate": "http://hl7.org/fhir/valueString",
                 "valueExpr": "http://hl7.org/fhir/shape/string"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueBoolean",
+                "predicate": "http://hl7.org/fhir/valueBoolean",
                 "valueExpr": "http://hl7.org/fhir/shape/boolean"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueInteger",
+                "predicate": "http://hl7.org/fhir/valueInteger",
                 "valueExpr": "http://hl7.org/fhir/shape/integer"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueTime",
+                "predicate": "http://hl7.org/fhir/valueTime",
                 "valueExpr": "http://hl7.org/fhir/shape/time"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueDateTime",
+                "predicate": "http://hl7.org/fhir/valueDateTime",
                 "valueExpr": "http://hl7.org/fhir/shape/dateTime"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valuePeriod",
+                "predicate": "http://hl7.org/fhir/valuePeriod",
                 "valueExpr": "http://hl7.org/fhir/shape/Period"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.valueAttachment",
+                "predicate": "http://hl7.org/fhir/valueAttachment",
                 "valueExpr": "http://hl7.org/fhir/shape/Attachment"
               }
             ],
@@ -917,19 +917,19 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.interpretation",
+            "predicate": "http://hl7.org/fhir/interpretation",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange",
+            "predicate": "http://hl7.org/fhir/referenceRange",
             "valueExpr": "http://hl7.org/fhir/shape/Observation.referenceRange",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.component",
+            "predicate": "http://hl7.org/fhir/component",
             "valueExpr": "http://hl7.org/fhir/shape/Observation.component",
             "min": 0, "max": -1
           },
@@ -953,49 +953,49 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.low",
+            "predicate": "http://hl7.org/fhir/low",
             "valueExpr": "http://hl7.org/fhir/shape/Quantity",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.high",
+            "predicate": "http://hl7.org/fhir/high",
             "valueExpr": "http://hl7.org/fhir/shape/Quantity",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.type",
+            "predicate": "http://hl7.org/fhir/type",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.appliesTo",
+            "predicate": "http://hl7.org/fhir/appliesTo",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.age",
+            "predicate": "http://hl7.org/fhir/age",
             "valueExpr": "http://hl7.org/fhir/shape/Range",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.referenceRange.text",
+            "predicate": "http://hl7.org/fhir/text",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
@@ -1019,19 +1019,19 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/BackboneElement.modifierExtension",
+            "predicate": "http://hl7.org/fhir/modifierExtension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.component.code",
+            "predicate": "http://hl7.org/fhir/code",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept"
           },
           {
@@ -1039,42 +1039,42 @@
             "expressions": [
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueCodeableConcept",
+                "predicate": "http://hl7.org/fhir/valueCodeableConcept",
                 "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueString",
+                "predicate": "http://hl7.org/fhir/valueString",
                 "valueExpr": "http://hl7.org/fhir/shape/string"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueBoolean",
+                "predicate": "http://hl7.org/fhir/valueBoolean",
                 "valueExpr": "http://hl7.org/fhir/shape/boolean"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueInteger",
+                "predicate": "http://hl7.org/fhir/valueInteger",
                 "valueExpr": "http://hl7.org/fhir/shape/integer"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueTime",
+                "predicate": "http://hl7.org/fhir/valueTime",
                 "valueExpr": "http://hl7.org/fhir/shape/time"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueDateTime",
+                "predicate": "http://hl7.org/fhir/valueDateTime",
                 "valueExpr": "http://hl7.org/fhir/shape/dateTime"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valuePeriod",
+                "predicate": "http://hl7.org/fhir/valuePeriod",
                 "valueExpr": "http://hl7.org/fhir/shape/Period"
               },
               {
                 "type": "TripleConstraint",
-                "predicate": "http://hl7.org/fhir/Observation.component.valueAttachment",
+                "predicate": "http://hl7.org/fhir/valueAttachment",
                 "valueExpr": "http://hl7.org/fhir/shape/Attachment"
               }
             ],
@@ -1082,13 +1082,13 @@
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.component.interpretation",
+            "predicate": "http://hl7.org/fhir/interpretation",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept",
             "min": 0, "max": -1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Observation.component.referenceRange",
+            "predicate": "http://hl7.org/fhir/referenceRange",
             "valueExpr": "http://hl7.org/fhir/shape/Observation.referenceRange",
             "min": 0, "max": -1
           },
@@ -1469,13 +1469,13 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Dosage.timing",
+            "predicate": "http://hl7.org/fhir/timing",
             "valueExpr": "http://hl7.org/fhir/shape/Timing",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Dosage.route",
+            "predicate": "http://hl7.org/fhir/route",
             "valueExpr": "http://hl7.org/fhir/shape/CodeableConcept",
             "min": 0, "max": 1
           },
@@ -1761,13 +1761,13 @@
         "expressions": [
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Element.id",
+            "predicate": "http://hl7.org/fhir/id",
             "valueExpr": "http://hl7.org/fhir/shape/string",
             "min": 0, "max": 1
           },
           {
             "type": "TripleConstraint",
-            "predicate": "http://hl7.org/fhir/Element.extension",
+            "predicate": "http://hl7.org/fhir/extension",
             "valueExpr": "http://hl7.org/fhir/shape/Extension",
             "min": 0, "max": -1
           },
