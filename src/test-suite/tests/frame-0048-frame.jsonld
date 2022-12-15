@@ -1,7 +1,0 @@
-{
-  "@context": {"@vocab": "urn:"},
-  "@type": "Class",
-  "preserve": {
-    "@graph": {}
-  }
-}

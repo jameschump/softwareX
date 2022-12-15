@@ -1,5 +1,0 @@
-{
-  "@context": {"ex": "http://example.org/"},
-  "@explicit": true,
-  "@type": "ex:Type1"
-}
